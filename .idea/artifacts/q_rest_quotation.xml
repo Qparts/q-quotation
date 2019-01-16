@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="q-rest-quotation">
+    <output-path>$PROJECT_DIR$/out/artifacts/q-rest-quotation</output-path>
+    <root id="archive" name="q-rest-quotation.war">
+      <element id="javaee-facet-resources" facet="q-rest-quotation/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="q-rest-quotation" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
