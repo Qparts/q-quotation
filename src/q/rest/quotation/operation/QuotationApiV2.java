@@ -2,18 +2,20 @@ package q.rest.quotation.operation;
 
 import q.rest.quotation.dao.DAO;
 import q.rest.quotation.filter.SecuredCustomer;
+import q.rest.quotation.filter.SecuredUser;
+import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
 import q.rest.quotation.model.contract.CreateQuotationRequest;
 import q.rest.quotation.model.contract.PublicComment;
 import q.rest.quotation.model.contract.PublicQuotation;
 import q.rest.quotation.model.contract.PublicQuotationItem;
-import q.rest.quotation.model.entity.Comment;
-import q.rest.quotation.model.entity.Quotation;
-import q.rest.quotation.model.entity.QuotationItem;
-import q.rest.quotation.model.entity.WebApp;
+import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
@@ -85,6 +87,49 @@ public class QuotationApiV2 {
         }
     }
 
+    @SecuredCustomer
+    @GET
+    @Path("quotations/customer/{customerId}/completed")
+    public Response getCustomerQuotations(@HeaderParam("Authorization") String header, @PathParam(value="customerId") long customerId){
+        try{
+            String sql = "select b from Quotation b where b.customerId= :value0 and b.status = :value1";
+            List<Quotation> quotations = dao.getJPQLParams(Quotation.class, sql, customerId, 'S');
+            List<PublicQuotation> publicQuotations = new ArrayList<>();
+            for(Quotation quotation : quotations){
+
+                PublicQuotation publicQuotation = quotation.getContract();
+                sql = "select b from BillItem b where b.id in (select c.billItemId from BillItemResponse c where c.status = :value0 and c.quotationId = :value1) ";
+                List<BillItem> billItems = dao.getJPQLParams(BillItem.class, sql, 'C', quotation.getId());
+                publicQuotation.setQuotationItems(new ArrayList<>());
+                for(BillItem billItem : billItems){
+                    PublicQuotationItem pqi = billItem.getContract();
+                    sql = "select b from BillItemResponse b where b.billItemId = :value0 and b.status = :value1";
+                    List<BillItemResponse> billItemResponses = dao.getJPQLParams(BillItemResponse.class, sql, billItem.getId(), 'C');
+
+                    for(BillItemResponse bir : billItemResponses){
+                        System.out.println(AppConstants.getPublicProduct(bir.getProductId()));
+                        Response r = this.getSecuredRequest(AppConstants.getPublicProduct(bir.getProductId()), header);
+                        if(r.getStatus() == 200){
+                            Map map = r.readEntity(Map.class);
+                            pqi.setProducts(map);
+                        }
+                        System.out.println(r.getStatus());
+                    }
+
+                    publicQuotation.getQuotationItems().add(pqi);
+                }
+                List<Comment> comments = dao.getTwoConditions(Comment.class, "quotationId" , "visibleToCustomer" , quotation.getId(), true);
+                publicQuotation.setComments(Helper.convertCommentsToContract(comments));
+                publicQuotations.add(publicQuotation);
+            }
+
+            return Response.status(200).entity(publicQuotations).build();
+
+        }catch (Exception ex){
+            return getServerErrorResponse();
+        }
+    }
+
 
 
 
@@ -127,6 +172,13 @@ public class QuotationApiV2 {
         return Response.status(500).entity("Server Error").build();
     }
 
+
+    public Response getSecuredRequest(String link, String authHeader) {
+        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
+        b.header(HttpHeaders.AUTHORIZATION, authHeader);
+        Response r = b.get();
+        return r;
+    }
 
 
 

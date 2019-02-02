@@ -60,6 +60,7 @@ public class Quotation implements Serializable {
     @Transient
     public PublicQuotation getContract(){
         PublicQuotation pq = new PublicQuotation();
+        pq.setId(this.getId());
         pq.setCreated(this.getCreated());
         pq.setCustomerId(this.getCustomerId());
         pq.setCustomerVehicleId(this.getCustomerVehicleId());

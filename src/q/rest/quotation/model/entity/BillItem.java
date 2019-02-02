@@ -1,5 +1,8 @@
 package q.rest.quotation.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import q.rest.quotation.model.contract.PublicQuotationItem;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -39,6 +42,17 @@ public class BillItem implements Serializable {
 
     @Transient
     private List<BillItemResponse> billItemResponses;
+
+
+    @JsonIgnore
+    @Transient
+    public PublicQuotationItem getContract(){
+        PublicQuotationItem pqi = new PublicQuotationItem();
+        pqi.setName(this.itemDesc);
+        pqi.setQuantity(this.quantity);
+        pqi.setId(this.id);
+        return pqi;
+    }
 
     public List<BillItemResponse> getBillItemResponses() {
         return billItemResponses;
