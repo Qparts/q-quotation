@@ -11,6 +11,7 @@ import q.rest.quotation.operation.sockets.QuotingEndpoint;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.mail.Quota;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -35,6 +36,9 @@ public class AsyncService {
         sendQuotationCreationEmail(quotation.getId());
         sendQuotationCreateionSms(quotation.getId());
     }
+
+
+
 
 
     private void createCartItems(String header, Quotation quotation, CreateQuotationRequest qr) {
@@ -117,6 +121,16 @@ public class AsyncService {
     @Asynchronous
     public void sendQuotationCreationEmail(long quotationId) {
         //   QuotationsEndpoint.broadcast(message);
+    }
+
+    @Asynchronous
+    public void sendQuotationCompletionEmail(String authHeader, Quotation quotation){
+        //send some email
+    }
+
+    @Asynchronous
+    public void sendQuotationCompletionSms(String authHeader, Quotation quotation){
+        //send some email
     }
 
     @Asynchronous

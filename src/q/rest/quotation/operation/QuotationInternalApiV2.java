@@ -58,12 +58,12 @@ public class QuotationInternalApiV2 {
     @GET
     @Path("assigned-quotations/user/{param}")
     public Response getUserAssignedQuotations(@PathParam(value = "param") int userId,
-                                         @HeaderParam("Authorization") String authHeader) {
+                                              @HeaderParam("Authorization") String authHeader) {
         try {
             String jpql = "select b from Quotation b where b.status = :value0 and b.id in ("
                     + "select c.quotationId from Assignment c where c.status = :value1 and c.assignee = :value2)";
-            List<Quotation> quotations= dao.getJPQLParams(Quotation.class, jpql, 'W', 'A', userId);
-            for (Quotation quotation: quotations) {
+            List<Quotation> quotations = dao.getJPQLParams(Quotation.class, jpql, 'W', 'A', userId);
+            for (Quotation quotation : quotations) {
                 prepareQuotation(quotation, authHeader);
             }
             return Response.status(200).entity(quotations).build();
@@ -77,18 +77,18 @@ public class QuotationInternalApiV2 {
     @SecuredUser
     @GET
     @Path("assigned-quotations/user/{userId}/quotation/{quotationId}")
-    public Response getUserAssignedCart(@PathParam(value="userId") int userId, @PathParam(value="quotationId") long quotationId, @HeaderParam("Authorization") String authHeader) {
+    public Response getUserAssignedCart(@PathParam(value = "userId") int userId, @PathParam(value = "quotationId") long quotationId, @HeaderParam("Authorization") String authHeader) {
         try {
             String jpql = "select b from Quotation b where b.status = :value0 and b.id in ("
                     + "select c.quotationId from Assignment c where c.status = :value1) and b.id = :value2";
-            Quotation quotation= dao.findJPQLParams(Quotation.class, jpql, 'W', 'A', quotationId);
-            if(quotation== null) {
+            Quotation quotation = dao.findJPQLParams(Quotation.class, jpql, 'W', 'A', quotationId);
+            if (quotation == null) {
                 return Response.status(404).build();
             }
             prepareQuotation(quotation, authHeader);
             return Response.status(200).entity(quotation).build();
 
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             return Response.status(500).build();
         }
 
@@ -186,15 +186,15 @@ public class QuotationInternalApiV2 {
     @SecuredUser
     @POST
     @Path("comment")
-    public Response createComment(Comment comment){
-        try{
+    public Response createComment(Comment comment) {
+        try {
             comment.setCreated(new Date());
             dao.persist(comment);
-            if(comment.getStatus() == 'X'){
+            if (comment.getStatus() == 'X') {
                 archiveQuotation(comment.getQuotationId());
             }
             return Response.status(201).build();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return Response.status(500).build();
         }
     }
@@ -204,12 +204,12 @@ public class QuotationInternalApiV2 {
     @DELETE
     @Path("bill/{param}")
     public Response deleteBill(@HeaderParam("Authorization") String authHeader,
-                                    @PathParam(value = "param") long billId) {
+                               @PathParam(value = "param") long billId) {
         try {
             Bill bill = dao.find(Bill.class, billId);
             // delete quotation items,
             List<BillItem> billItems = dao.getCondition(BillItem.class, "billId", bill.getId());
-            for(BillItem billItem : billItems){
+            for (BillItem billItem : billItems) {
                 billItem.setStatus('X');
                 dao.update(billItem);
             }
@@ -249,14 +249,14 @@ public class QuotationInternalApiV2 {
     @DELETE
     @Path("bill-item/{param}")
     public Response deleteBillItem(@HeaderParam("Authorization") String authHeader,
-                                        @PathParam(value = "param") long billItemId) {
+                                   @PathParam(value = "param") long billItemId) {
         try {
             BillItem billItem = dao.find(BillItem.class, billItemId);
             // delete vendor quotation items,
 
             String jpql = "select b from BillItemResponse b where billItemId = :value0 and status != :value1";
             List<BillItemResponse> birs = dao.getJPQLParams(BillItemResponse.class, jpql, billItem.getId(), 'X');
-            for (BillItemResponse biResponse: birs) {
+            for (BillItemResponse biResponse : birs) {
                 if (biResponse.getStatus() == 'C') {
                     async.createFinderScore(biResponse, "Quotation item deleted", "revising", authHeader, -3);
                 } else if (biResponse.getStatus() == 'I') {
@@ -308,16 +308,159 @@ public class QuotationInternalApiV2 {
         }
     }
 
+    @SecuredUser
+    @POST
+    @Path("bill-item")
+    public Response createBillIteam(BillItem billItem) {
+        try {
+            Bill bill = new Bill();
+            bill.setQuotationId(billItem.getQuotationId());
+            bill.setStatus('W');
+            bill.setCreated(new Date());
+            bill.setCreatedBy(billItem.getCreatedBy());
+            bill.setBillItems(new ArrayList<>());
+            dao.persist(bill);
+            billItem.setBillId(bill.getId());
+            billItem.setCreated(new Date());
+            billItem.setStatus('W');
+            dao.persist(billItem);
+            bill.getBillItems().add(billItem);
+            return Response.status(200).entity(bill).build();
+        } catch (Exception ex) {
+            return Response.status(500).build();
+        }
+
+    }
+
+    @SecuredUser
+    @POST
+    @Path("bill-item-response")
+    public Response createQuotationItemResponse(@HeaderParam("Authorization") String authHeader, BillItem billItem) {
+        try {
+            if (billItem.getStatus() == 'N') {
+                dao.update(billItem);
+            }
+            for (BillItemResponse bir : billItem.getBillItemResponses()) {
+                if (bir.getId() == 0) {
+                    // new quotaiton item
+                    String jpql = "select b from BillItemResponse b where b.billItemId =:value0 and b.productId = :value1";
+                    List<BillItemResponse> checkResponses = dao.getJPQLParams(BillItemResponse.class, jpql,
+                            bir.getBillItemId(), bir.getProductId());
+                    if (!checkResponses.isEmpty()) {
+                        return Response.status(429).build();
+                    }
+                    bir.setCreated(new Date());
+                    dao.persist(bir);
+                    if (bir.getStatus() == 'C') {
+                        this.async.createFinderScore(bir, "Product number and price found", "quoting", authHeader, 3);
+                    } else if (bir.getStatus() == 'I') {
+                        this.async.createFinderScore(bir, "Product number found", "quoting", authHeader, 2);
+                    } else if (bir.getStatus() == 'N') {
+                        this.async.createFinderScore(bir, "Product not available", "quoting", authHeader, 0);
+                    }
+                } else {
+                    // already submitted before
+                    dao.update(bir);
+                    if (bir.getStatus() == 'C') {
+                        this.async.createFinderScore(bir, "Price found", "quoting", authHeader, 1);
+                    } else if (bir.getStatus() == 'N') {
+                        this.async.createFinderScore(bir, "Product Found but price is not available", "quoting",
+                                authHeader, 1);
+                    }
+
+                }
+            }
+            // check for completion
+            checkForBillItemCompletion(authHeader, billItem.getId());
+            return Response.status(201).build();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Response.status(500).build();
+        }
+    }
+
+    // check if quotation item is responded
+    private void checkForBillItemCompletion(String authHeader, long billItemId) {
+        // check for completed
+        String jpql = "select b from BillItemResponse b where b.billItemId =:value0 and b.status =:value1";
+        List<BillItemResponse> completed = dao.getJPQLParams(BillItemResponse.class, jpql, billItemId, 'C');
+        if (!completed.isEmpty()) {
+            BillItem billItem = dao.find(BillItem.class, billItemId);
+            billItem.setStatus('C');
+            dao.update(billItem);
+            checkForBillCompletion(authHeader, billItem.getBillId());
+        } else {
+            // item not completed, check if unavailable response exists
+            String jpql2 = "select b from BillItemResponse b where b.billItemId =:value0 and b.status =:value1";
+            List<BillItemResponse> notAvailable = dao.getJPQLParams(BillItemResponse.class, jpql2, billItemId, 'N');
+
+            if (!notAvailable.isEmpty()) {
+                BillItem billItem = dao.find(BillItem.class, billItemId);
+                billItem.setStatus('N');// not available
+                dao.update(billItem);
+                checkForBillCompletion(authHeader, billItem.getBillId());
+            }
+
+        }
+    }
+
+
+    // check if all quotation items completed or not available
+    private void checkForBillCompletion(String authHeader, long billId) {
+        List<BillItem> billItem = dao.getTwoConditions(BillItem.class, "billId", "status", billId, 'W');
+        if (billItem.isEmpty()) {
+            Bill bill = dao.find(Bill.class, billId);
+            bill.setStatus('C');
+            dao.update(bill);
+            checkForQuotationReadyForSubmission(authHeader, bill.getQuotationId());
+        }
+    }
+
+    private void checkForQuotationReadyForSubmission(String authHeader, long quotationId) {
+        List<Bill> allBills = dao.getCondition(Bill.class, "quotationId", quotationId);
+        List<Bill> completedBills = dao.getTwoConditions(Bill.class, "quotationId", "status", quotationId, 'C');
+        if (allBills.size() == completedBills.size()) {
+            List<BillItemResponse> birs = dao.getTwoConditions(BillItemResponse.class, "status", "quotationId", 'C', quotationId);
+            Quotation quotation = dao.find(Quotation.class, quotationId);
+            if(!birs.isEmpty()){
+                completeQuotationAssignment(quotationId);
+                quotation.setStatus('S');
+                dao.update(quotation);
+                async.sendQuotationCompletionEmail(authHeader, quotation);
+                async.sendQuotationCompletionSms(authHeader, quotation);
+                async.broadcastToQuotations("submit quotation," + quotation.getId());
+            }
+            else{
+                // quotation completed but cart does not have items! set as ready for submission
+                // for archiving!
+                quotation.setStatus('R');// all items not available
+                dao.update(quotation);
+                async.broadcastToQuotations("not available quotation," + quotationId);
+            }
+        }
+    }
+
+
+
+    private void completeQuotationAssignment(long quotationId) {
+        Assignment ca = dao.findTwoConditions(Assignment.class, "quotationId", "status", quotationId, 'A');
+        if (ca != null) {
+            Quotation c = dao.find(Quotation.class, quotationId);
+            ca.setCompleted(new Date());
+            ca.setStatus('C');
+            dao.update(ca);
+        }
+    }
 
     @SecuredUser
     @PUT
     @Path("bill-item")
-    public Response updateQuotationItem(BillItem billItem) {
+    public Response updateBillItem(BillItem billItem) {
         try {
             dao.update(billItem);
             List<BillItemResponse> billItemResponses = dao.getCondition(BillItemResponse.class, "billItemId", billItem.getId());
-            for(BillItemResponse bir : billItemResponses) {
-                if(bir.getStatus() != 'N') {
+            for (BillItemResponse bir : billItemResponses) {
+                if (bir.getStatus() != 'N') {
                     bir.setQuantity(billItem.getQuantity());
                     dao.update(bir);
                 }
@@ -332,7 +475,7 @@ public class QuotationInternalApiV2 {
     @SecuredUser
     @PUT
     @Path("merge-quotations")
-    public Response mergeQuotations(Map<String,Object> map) {
+    public Response mergeQuotations(Map<String, Object> map) {
         try {
             long mainId = ((Number) map.get("mainId")).longValue();
             long slaveId = ((Number) map.get("slaveId")).longValue();
@@ -361,7 +504,7 @@ public class QuotationInternalApiV2 {
                 dao.update(bir);
             }
 
-            Comment comment= new Comment();
+            Comment comment = new Comment();
             comment.setStatus('X');
             comment.setQuotationId(slave.getId());
             comment.setCreated(new Date());
@@ -381,9 +524,9 @@ public class QuotationInternalApiV2 {
     }
 
 
-    private void archiveQuotation(long quotationId){
+    private void archiveQuotation(long quotationId) {
         Quotation quotation = dao.find(Quotation.class, quotationId);
-        if(quotation != null){
+        if (quotation != null) {
             quotation.setStatus('X');
             dao.update(quotation);
         }
@@ -453,14 +596,14 @@ public class QuotationInternalApiV2 {
         return new ArrayList<>();
     }
 
-    private void appendComments(Quotation quotation){
+    private void appendComments(Quotation quotation) {
         //get comments
         String sql2 = "select b from Comment b where b.quotationId = :value0 order by b.created";
         List<Comment> comments = dao.getJPQLParams(Comment.class, sql2, quotation.getId());
         quotation.setComments(comments);
     }
 
-    private void appendLastAssignment(Quotation quotation){
+    private void appendLastAssignment(Quotation quotation) {
         //get last assignment
         String sql = "select b from Assignment b where b.quotationId = :value0 and b.status = :value1 order by b.created desc";// newest
         List<Assignment> cas = dao.getJPQLParams(Assignment.class, sql, quotation.getId(), 'A');
@@ -469,33 +612,33 @@ public class QuotationInternalApiV2 {
         }
     }
 
-    private void appendQuotationItems(Quotation quotation){
+    private void appendQuotationItems(Quotation quotation) {
         //get quotation items
         List<QuotationItem> items = dao.getCondition(QuotationItem.class, "quotationId", quotation.getId());
         quotation.setQuotationItems(items);
     }
 
-    private void appendBills(Quotation quotation){
+    private void appendBills(Quotation quotation) {
         //get bills
         String sql3 = "select b from Bill b where b.quotationId = :value0 and b.status != :value1 order by b.created";
         List<Bill> bills = dao.getJPQLParams(Bill.class, sql3, quotation.getId(), 'X');
-        for(Bill bill : bills){
+        for (Bill bill : bills) {
             appendBillItems(bill);
 
         }
         quotation.setBills(bills);
     }
 
-    private void appendBillItems(Bill bill){
+    private void appendBillItems(Bill bill) {
         String sql4 = "select b from BillItem b where b.billId =:value0 and b.status != :value1 order by b.created";
         List<BillItem> billItems = dao.getJPQLParams(BillItem.class, sql4, bill.getId(), 'X');
-        for(BillItem billItem : billItems){
-          appendBillItemResponses(billItem);
+        for (BillItem billItem : billItems) {
+            appendBillItemResponses(billItem);
         }
         bill.setBillItems(billItems);
     }
 
-    private void appendBillItemResponses(BillItem billItem){
+    private void appendBillItemResponses(BillItem billItem) {
         String sql5 = "select b from BillItemResponse b where b.billItemId = :value0 and b.status != :value1";
         List<BillItemResponse> responses = dao.getJPQLParams(BillItemResponse.class, sql5, billItem.getId(), 'X');
         billItem.setBillItemResponses(responses);
@@ -512,8 +655,6 @@ public class QuotationInternalApiV2 {
 
         }
     }
-
-
 
 
     public Response getSecuredRequest(String link, String authHeader) {
