@@ -1,17 +1,39 @@
 package q.rest.quotation.model.contract;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class CreateQuotationItemRequest {
 
-    private String image;
+    private boolean hasImage;
     private int quantity;
     private String itemName;
+    private int tempId;
+    @JsonIgnore
+    private String imageName;
 
-    public String getImage() {
-        return image;
+
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public boolean isHasImage() {
+        return hasImage;
+    }
+
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
+    }
+
+    public int getTempId() {
+        return tempId;
+    }
+
+    public void setTempId(int tempId) {
+        this.tempId = tempId;
     }
 
     public int getQuantity() {

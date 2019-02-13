@@ -5,10 +5,7 @@ import q.rest.quotation.filter.SecuredCustomer;
 import q.rest.quotation.filter.SecuredUser;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
-import q.rest.quotation.model.contract.CreateQuotationRequest;
-import q.rest.quotation.model.contract.PublicComment;
-import q.rest.quotation.model.contract.PublicQuotation;
-import q.rest.quotation.model.contract.PublicQuotationItem;
+import q.rest.quotation.model.contract.*;
 import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
@@ -34,32 +31,32 @@ public class QuotationApiV2 {
     @SecuredCustomer
     @POST
     @Path("quotation")
-    public Response createQuotation(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
+    public Response createQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
         try {
             if (isQuotationRedudant(qr.getCustomerId(), new Date())) {
                 return Response.status(429).build();
             }
 
             WebApp wa = this.getWebAppFromAuthHeader(header);
-            Quotation quotation = new Quotation();
-            quotation.setAppCode(wa.getAppCode());
-            quotation.setCityId(qr.getCityId());
-            quotation.setCreated(new Date());
-            quotation.setCreatedBy(0);
-            quotation.setCustomerId(qr.getCustomerId());
-            quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
-            quotation.setMakeId(qr.getMakeId());
-            quotation.setStatus('N');
-            quotation.setVinImageAttached(qr.getVinImage().length() > 0);
-            dao.persist(quotation);
+            Quotation quotation = createQuotation(qr, wa);
+            createQuotationItems(quotation, qr.getQuotationItems());
             async.completeQuotationCreation(quotation, qr, header);
-            Map<String,Object> map = new HashMap<>();
-            map.put("quotationId", quotation.getId());
-            return Response.status(200).entity(map).build();
+            CreateQuotationResponse res = new CreateQuotationResponse();
+            res.setQuotationId(quotation.getId());
+            res.setItems(new ArrayList<>());
+            for(CreateQuotationItemRequest req : qr.getQuotationItems()){
+                Map<String,Object> map = new HashMap<>();
+                map.put("tempId", req.getTempId());
+                map.put("itemName" , req.getItemName());
+                res.getItems().add(map);
+            }
+
+            return Response.status(200).entity(res).build();
         }catch(Exception ex){
             return getServerErrorResponse();
         }
     }
+
 
     @SecuredCustomer
     @GET
@@ -181,5 +178,34 @@ public class QuotationApiV2 {
     }
 
 
+    private Quotation createQuotation(CreateQuotationRequest qr, WebApp wa){
+        Quotation quotation = new Quotation();
+        quotation.setAppCode(wa.getAppCode());
+        quotation.setCityId(qr.getCityId());
+        quotation.setCreated(new Date());
+        quotation.setCreatedBy(0);
+        quotation.setCustomerId(qr.getCustomerId());
+        quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
+        quotation.setMakeId(qr.getMakeId());
+        quotation.setStatus('N');
+        quotation.setVinImageAttached(false);
+        dao.persist(quotation);
+        return quotation;
+    }
+
+
+    private void createQuotationItems(Quotation quotation, List<CreateQuotationItemRequest> qir) {
+        quotation.setQuotationItems(new ArrayList<>());
+        for (CreateQuotationItemRequest qritem : qir) {
+            QuotationItem quotationItem = new QuotationItem();
+            quotationItem.setQuotationId(quotation.getId());
+            quotationItem.setName(qritem.getItemName());
+            quotationItem.setQuantity(qritem.getQuantity());
+            quotationItem.setImageAttached(qritem.isHasImage());
+            dao.persist(quotationItem);
+            quotation.getQuotationItems().add(quotationItem);
+            qritem.setItemName(quotationItem.getId() + ".png");
+        }
+    }
 
 }

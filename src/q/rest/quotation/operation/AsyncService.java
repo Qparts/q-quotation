@@ -29,34 +29,15 @@ public class AsyncService {
 
     @Asynchronous
     public void completeQuotationCreation(Quotation quotation, CreateQuotationRequest qr, String header) {
-        createCartItems(header, quotation, qr);
-        createBill(quotation);
-        writeQuotationVinImage(header, qr.getVinImage(), quotation.getId(), quotation.getCreated());
+
         broadcastToQuotations("new quotation," + quotation.getId());
         sendQuotationCreationEmail(quotation.getId());
         sendQuotationCreateionSms(quotation.getId());
     }
 
 
-
-
-
-    private void createCartItems(String header, Quotation quotation, CreateQuotationRequest qr) {
-        quotation.setQuotationItems(new ArrayList<>());
-        for (CreateQuotationItemRequest qritem : qr.getQuotationItems()) {
-            QuotationItem quotationItem = new QuotationItem();
-            quotationItem.setQuotationId(quotation.getId());
-            quotationItem.setName(qritem.getItemName());
-            quotationItem.setQuantity(qritem.getQuantity());
-            quotationItem.setImageAttached(qritem.getImage().length() > 0);
-            dao.persist(quotationItem);
-            quotation.getQuotationItems().add(quotationItem);
-            writeQuotationItemImage(header, qritem.getImage(), quotation.getId(), quotationItem.getId(), quotation.getCreated());
-        }
-    }
-
-
-    private void createBill(Quotation quotation) {
+    @Asynchronous
+    public void createBill(Quotation quotation) {
         Bill bill = new Bill();
         bill.setQuotationId(quotation.getId());
         bill.setCreated(new Date());
@@ -88,34 +69,6 @@ public class AsyncService {
         map.put("score", score);
         map.put("desc", desc);
         postSecuredRequest(AppConstants.POST_QUOTING_SCORE, map, authHeader);
-    }
-
-
-    @Asynchronous
-    private void writeQuotationItemImage(String header, String imageString, Long quotationId, Long id, Date created) {
-        if (imageString != null && imageString.length() > 0) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("quotationId", quotationId);
-            map.put("imageString", imageString);
-            map.put("id", id);
-            map.put("created", created.getTime());
-            Response r = postSecuredRequest(AppConstants.POST_QUOTATION_ITEM_IMAGE, map, header);
-            System.out.println("item image response "+r.getStatus());
-        }
-    }
-
-
-
-    @Asynchronous
-    private void writeQuotationVinImage(String header, String imageString, Long id, Date created) {
-        if (imageString != null && imageString.length() > 0) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("imageString", imageString);
-            map.put("id", id);
-            map.put("created", created.getTime());
-            Response r= postSecuredRequest(AppConstants.POST_QUOTATION_VIN_IMAGE, map, header);
-            System.out.println("Vin image response " + r.getStatus());
-        }
     }
 
     @Asynchronous
