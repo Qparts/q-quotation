@@ -47,7 +47,7 @@ public class QuotationApiV2 {
             for(CreateQuotationItemRequest req : qr.getQuotationItems()){
                 Map<String,Object> map = new HashMap<>();
                 map.put("tempId", req.getTempId());
-                map.put("itemName" , req.getItemName());
+                map.put("imageName" , req.getItemName());
                 res.getItems().add(map);
             }
 

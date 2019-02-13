@@ -29,7 +29,6 @@ public class AsyncService {
 
     @Asynchronous
     public void completeQuotationCreation(Quotation quotation, CreateQuotationRequest qr, String header) {
-
         broadcastToQuotations("new quotation," + quotation.getId());
         sendQuotationCreationEmail(quotation.getId());
         sendQuotationCreateionSms(quotation.getId());

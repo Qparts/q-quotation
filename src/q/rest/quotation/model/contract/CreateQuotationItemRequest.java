@@ -8,17 +8,6 @@ public class CreateQuotationItemRequest {
     private int quantity;
     private String itemName;
     private int tempId;
-    @JsonIgnore
-    private String imageName;
-
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
 
     public boolean isHasImage() {
         return hasImage;
