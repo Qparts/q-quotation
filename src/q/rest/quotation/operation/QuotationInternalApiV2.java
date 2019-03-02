@@ -418,7 +418,9 @@ public class QuotationInternalApiV2 {
 
     private void checkForQuotationReadyForSubmission(String authHeader, long quotationId) {
         List<Bill> allBills = dao.getCondition(Bill.class, "quotationId", quotationId);
-        List<Bill> completedBills = dao.getTwoConditions(Bill.class, "quotationId", "status", quotationId, 'C');
+        String sql = "select b from Bill b where b.quotationId =:value0 and b.status in (:value1, :value2)";
+        List<Bill> completedBills = dao.getJPQLParams(Bill.class, sql, quotationId, 'C', 'X');
+        //List<Bill> completedBills = dao.getTwoConditions(Bill.class, "quotationId", "status", quotationId, 'C');
         if (allBills.size() == completedBills.size()) {
             List<BillItemResponse> birs = dao.getTwoConditions(BillItemResponse.class, "status", "quotationId", 'C', quotationId);
             Quotation quotation = dao.find(Quotation.class, quotationId);
