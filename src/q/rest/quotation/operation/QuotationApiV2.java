@@ -2,7 +2,6 @@ package q.rest.quotation.operation;
 
 import q.rest.quotation.dao.DAO;
 import q.rest.quotation.filter.SecuredCustomer;
-import q.rest.quotation.filter.SecuredUser;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
 import q.rest.quotation.model.contract.*;
@@ -11,6 +10,7 @@ import q.rest.quotation.model.entity.*;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -36,9 +36,8 @@ public class QuotationApiV2 {
             if (isQuotationRedudant(qr.getCustomerId(), new Date())) {
                 return Response.status(429).build();
             }
-
             WebApp wa = this.getWebAppFromAuthHeader(header);
-            Quotation quotation = createQuotation(qr, wa);
+            Quotation quotation = createQuotation(qr, wa, header);
             createQuotationItems(quotation, qr.getQuotationItems());
             async.completeQuotationCreation(quotation, qr, header);
             CreateQuotationResponse res = new CreateQuotationResponse();
@@ -49,10 +48,12 @@ public class QuotationApiV2 {
                 map.put("tempId", req.getTempId());
                 map.put("imageName" , req.getItemName());
                 res.getItems().add(map);
+                res.setCustomerVehicleId(qr.getCustomerVehicleId());
+                res.setUploadImage(qr.getCustomerVehicleNewlyCreated() && qr.getImageAttached());
             }
-
             return Response.status(200).entity(res).build();
         }catch(Exception ex){
+            ex.printStackTrace();
             return getServerErrorResponse();
         }
     }
@@ -178,13 +179,42 @@ public class QuotationApiV2 {
     }
 
 
-    private Quotation createQuotation(CreateQuotationRequest qr, WebApp wa){
+    public <T> Response postSecuredRequest(String link, T t, String authHeader) {
+        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
+        b.header(HttpHeaders.AUTHORIZATION, authHeader);
+        Response r = b.post(Entity.entity(t, "application/json"));
+        return r;
+    }
+
+
+        private Quotation createQuotation(CreateQuotationRequest qr, WebApp wa, String header){
         Quotation quotation = new Quotation();
         quotation.setAppCode(wa.getAppCode());
         quotation.setCityId(qr.getCityId());
         quotation.setCreated(new Date());
         quotation.setCreatedBy(0);
         quotation.setCustomerId(qr.getCustomerId());
+        qr.setCustomerVehicleNewlyCreated(false);
+        if(qr.getCustomerVehicleId() == null){
+            Map<String,Object> map = new HashMap<>();
+            map.put("vehicleYearId", qr.getVehicleYearId());
+            map.put("vin", qr.getVin());
+            map.put("imageAttached", qr.getImageAttached());
+            map.put("customerId", qr.getCustomerId());
+            System.out.println(AppConstants.POST_CUSTOMER_VEHICLE_IF_AVAILABLE);
+            Response r = postSecuredRequest(AppConstants.POST_CUSTOMER_VEHICLE_IF_AVAILABLE, map , header);
+            System.out.println(r.getStatus());
+            if(r.getStatus() == 200){
+                Long customerVehicleId = r.readEntity(Long.class);
+                qr.setCustomerVehicleId(customerVehicleId);
+                qr.setCustomerVehicleNewlyCreated(true);
+            }
+            else if(r.getStatus() == 409){
+                Long customerVehicleId = r.readEntity(Long.class);
+                qr.setCustomerVehicleId(customerVehicleId);
+                qr.setCustomerVehicleNewlyCreated(false);
+            }
+        }
         quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
         quotation.setMakeId(qr.getMakeId());
         quotation.setStatus('N');

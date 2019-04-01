@@ -6,6 +6,24 @@ import java.util.Map;
 public class CreateQuotationResponse {
     private long quotationId;
     private List<Map<String,Object>> items;
+    private Long customerVehicleId;
+    private boolean uploadImage;
+
+    public boolean isUploadImage() {
+        return uploadImage;
+    }
+
+    public void setUploadImage(boolean uploadImage) {
+        this.uploadImage = uploadImage;
+    }
+
+    public Long getCustomerVehicleId() {
+        return customerVehicleId;
+    }
+
+    public void setCustomerVehicleId(Long customerVehicleId) {
+        this.customerVehicleId = customerVehicleId;
+    }
 
     public long getQuotationId() {
         return quotationId;
