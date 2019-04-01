@@ -48,7 +48,7 @@ public class QuotationApiV2 {
                 map.put("tempId", req.getTempId());
                 map.put("imageName" , req.getItemName());
                 res.getItems().add(map);
-                res.setCustomerVehicleId(qr.getCustomerVehicleId());
+                res.setVehicleImageName(qr.getCustomerVehicleId() + ".png");
                 res.setUploadImage(qr.getCustomerVehicleNewlyCreated() && qr.getImageAttached());
             }
             return Response.status(200).entity(res).build();

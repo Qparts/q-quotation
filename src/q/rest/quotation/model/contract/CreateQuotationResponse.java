@@ -6,7 +6,7 @@ import java.util.Map;
 public class CreateQuotationResponse {
     private long quotationId;
     private List<Map<String,Object>> items;
-    private Long customerVehicleId;
+    private String vehicleImageName;
     private boolean uploadImage;
 
     public boolean isUploadImage() {
@@ -17,12 +17,12 @@ public class CreateQuotationResponse {
         this.uploadImage = uploadImage;
     }
 
-    public Long getCustomerVehicleId() {
-        return customerVehicleId;
+    public String getVehicleImageName() {
+        return vehicleImageName;
     }
 
-    public void setCustomerVehicleId(Long customerVehicleId) {
-        this.customerVehicleId = customerVehicleId;
+    public void setVehicleImageName(String vehicleImageName) {
+        this.vehicleImageName = vehicleImageName;
     }
 
     public long getQuotationId() {
