@@ -201,9 +201,14 @@ public class QuotationApiV2 {
             map.put("vin", qr.getVin());
             map.put("imageAttached", qr.getImageAttached());
             map.put("customerId", qr.getCustomerId());
+            System.out.println("vehicle year id = " +qr.getVehicleYearId());
+            System.out.println("vin = " +qr.getVin());
+            System.out.println("image attached = " +qr.getImageAttached());
+            System.out.println("customer Id = " +qr.getCustomerId());
             System.out.println(AppConstants.POST_CUSTOMER_VEHICLE_IF_AVAILABLE);
             Response r = postSecuredRequest(AppConstants.POST_CUSTOMER_VEHICLE_IF_AVAILABLE, map , header);
             System.out.println(r.getStatus());
+            System.out.println("=======================");
             if(r.getStatus() == 200){
                 Long customerVehicleId = r.readEntity(Long.class);
                 qr.setCustomerVehicleId(customerVehicleId);
