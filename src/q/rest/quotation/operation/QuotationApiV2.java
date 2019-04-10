@@ -195,6 +195,9 @@ public class QuotationApiV2 {
         qr.setCustomerVehicleNewlyCreated(false);
         if(qr.getCustomerVehicleId() == null){
             Map<String,Object> map = new HashMap<>();
+            if(qr.getVin() == null){
+                qr.setVin("");
+            }
             map.put("vehicleYearId", qr.getVehicleYearId());
             map.put("vin", qr.getVin());
             map.put("imageAttached", qr.getImageAttached());
