@@ -105,13 +105,11 @@ public class QuotationApiV2 {
                     List<BillItemResponse> billItemResponses = dao.getJPQLParams(BillItemResponse.class, sql, billItem.getId(), 'C');
 
                     for(BillItemResponse bir : billItemResponses){
-                        System.out.println(AppConstants.getPublicProduct(bir.getProductId()));
                         Response r = this.getSecuredRequest(AppConstants.getPublicProduct(bir.getProductId()), header);
                         if(r.getStatus() == 200){
                             Map map = r.readEntity(Map.class);
                             pqi.setProducts(map);
                         }
-                        System.out.println(r.getStatus());
                     }
 
                     publicQuotation.getQuotationItems().add(pqi);
@@ -201,11 +199,11 @@ public class QuotationApiV2 {
             map.put("vin", qr.getVin());
             map.put("imageAttached", qr.getImageAttached());
             map.put("customerId", qr.getCustomerId());
+            System.out.println("=======================");
             System.out.println("vehicle year id = " +qr.getVehicleYearId());
             System.out.println("vin = " +qr.getVin());
             System.out.println("image attached = " +qr.getImageAttached());
             System.out.println("customer Id = " +qr.getCustomerId());
-            System.out.println(AppConstants.POST_CUSTOMER_VEHICLE_IF_AVAILABLE);
             Response r = postSecuredRequest(AppConstants.POST_CUSTOMER_VEHICLE_IF_AVAILABLE, map , header);
             System.out.println(r.getStatus());
             System.out.println("=======================");

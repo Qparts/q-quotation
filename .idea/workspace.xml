@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -22,8 +21,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="210" column="55" selection-start-line="210" selection-start-column="55" selection-end-line="210" selection-end-column="55" />
+            <state relative-caret-position="281">
+              <caret line="210" column="37" lean-forward="true" selection-start-line="210" selection-start-column="37" selection-end-line="210" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -42,7 +41,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>actionV</find>
       <find>m</find>
       <find>cart</find>
       <find>quoting</find>
@@ -72,6 +70,7 @@
       <find>setCustomerVehicleNewlyCreated</find>
       <find>getMake</find>
       <find>vehicle</find>
+      <find>Sys</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -144,6 +143,11 @@
             <path>
               <item name="q-rest-quotation" type="b2602c69:ProjectViewProjectNode" />
               <item name="q-rest-quotation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="q-rest-quotation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="q-rest-quotation" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="q-rest-quotation" type="b2602c69:ProjectViewProjectNode" />
@@ -280,12 +284,12 @@
       <workItem from="1551442140839" duration="2425000" />
       <workItem from="1551971562348" duration="17000" />
       <workItem from="1553799101561" duration="45000" />
-      <workItem from="1553799171864" duration="10971000" />
+      <workItem from="1553799171864" duration="12110000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98934000" />
+    <option name="totallyTimeSpent" value="100073000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -726,8 +730,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="210" column="55" selection-start-line="210" selection-start-column="55" selection-end-line="210" selection-end-column="55" />
+        <state relative-caret-position="281">
+          <caret line="210" column="37" lean-forward="true" selection-start-line="210" selection-start-column="37" selection-end-line="210" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
