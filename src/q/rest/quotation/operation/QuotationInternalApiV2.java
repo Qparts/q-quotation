@@ -47,6 +47,7 @@ public class QuotationInternalApiV2 {
             dao.persist(assignment);
             async.broadcastToQuotations("assignment changed," + assignment.getQuotationId());
             async.sendToQuotingUser("newly assigned," + assignment.getQuotationId(), assignment.getAssignee());
+            async.broadcastToNotification("quotingQuotations," + async.getAssinedQuotations(assignment.getAssignee()));
             return Response.status(200).entity(assignment).build();
         } catch (Exception ex) {
             return Response.status(500).build();
@@ -122,6 +123,7 @@ public class QuotationInternalApiV2 {
             Quotation randomQuotation = quotations.get(Helper.getRandomInteger(0, quotations.size() - 1));
             assignQuotation(randomQuotation, userId, userId);
             async.broadcastToQuotations("assignment changed," + randomQuotation.getId());
+            async.broadcastToNotification("quotingQuotations," + async.getAssinedQuotations(userId));
 
             return Response.status(201).build();
         } catch (Exception ex) {
@@ -140,6 +142,7 @@ public class QuotationInternalApiV2 {
             deactivateActiveAssignment(quotationId, assignee);
             async.broadcastToQuotations("assignment changed," + quotationId);
             async.sendToQuotingUser("unassigned quotation," + quotationId, assignee);
+            async.broadcastToNotification("quotingQuotations," + async.getAssinedQuotations(assignee));
             return Response.status(201).build();
         } catch (Exception ex) {
             return Response.status(500).build();
@@ -431,6 +434,7 @@ public class QuotationInternalApiV2 {
                 async.sendQuotationCompletionEmail(authHeader, quotation);
                 async.sendQuotationCompletionSms(authHeader, quotation);
                 async.broadcastToQuotations("submit quotation," + quotation.getId());
+                async.broadcastToNotification("pendingQuotations," + async.getPendingQuotations());
             }
             else{
                 // quotation completed but cart does not have items! set as ready for submission

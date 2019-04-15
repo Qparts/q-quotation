@@ -5,6 +5,7 @@ import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.model.contract.CreateQuotationItemRequest;
 import q.rest.quotation.model.contract.CreateQuotationRequest;
 import q.rest.quotation.model.entity.*;
+import q.rest.quotation.operation.sockets.NotificationsEndPoint;
 import q.rest.quotation.operation.sockets.QuotationsEndPoint;
 import q.rest.quotation.operation.sockets.QuotingEndpoint;
 
@@ -31,6 +32,7 @@ public class AsyncService {
     public void completeQuotationCreation(Quotation quotation, CreateQuotationRequest qr, String header) {
         createBill(quotation);
         broadcastToQuotations("new quotation," + quotation.getId());
+        broadcastToNotification("pendingQuotations," + getPendingQuotations());
         sendQuotationCreationEmail(quotation.getId());
         sendQuotationCreateionSms(quotation.getId());
     }
@@ -96,6 +98,28 @@ public class AsyncService {
         QuotationsEndPoint.broadcast(message);
     }
 
+    @Asynchronous
+    public void broadcastToNotification(String message){
+        NotificationsEndPoint.broadcast(message);
+    }
+
+
+    public int getPendingQuotations(){
+        String jpql = "select count(b) from Quotation b where b.status in (:value0, :value1, :value2, :value3)";
+        Number number = dao.findJPQLParams(Number.class, jpql, 'N', 'W', 'R', 'A');
+        if(number == null)
+            number = 0;
+        return number.intValue();
+    }
+
+    public int getAssinedQuotations(int userId){
+        String jpql = "select count(b) from Quotation b where b.status = :value0 and b.id in ("
+                + "select c.quotationId from Assignment c where c.status = :value1 and c.assignee = :value2)";
+        Number number = dao.findJPQLParams(Number.class, jpql, 'W', 'A', userId);
+        if(number == null)
+            number = 0;
+        return number.intValue();
+    }
 
     public <T> Response postSecuredRequest(String link, T t, String authHeader) {
         Invocation.Builder b = ClientBuilder.newClient().target(link).request();

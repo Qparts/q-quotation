@@ -3,6 +3,7 @@ package q.rest.quotation.operation.sockets;
 import q.rest.quotation.dao.DAO;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.model.entity.Quotation;
+import q.rest.quotation.operation.AsyncService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -27,6 +28,9 @@ public class NotificationsEndPoint {
     @EJB
     private DAO dao;
 
+    @EJB
+    private AsyncService async;
+
     private Session session;
     private int userId;
     private String token;
@@ -40,17 +44,13 @@ public class NotificationsEndPoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("username") Integer userId, @PathParam("token") String token) throws IOException {
-        System.out.println("Connected");
         this.session = session;
         this.userId = userId;
         this.token = token;
         if(this.tokenMatched()) {
             notificationsEndPoints.add(this);
-            String jpql = "select count(b) from Quotation b where b.status in (:value0, :value1, :value2, :value3)";
-            Number number = dao.findJPQLParams(Number.class, jpql, 'N', 'W', 'R', 'A');
-            if(number == null)
-                number = 0;
-            this.broadcast("pendingQuotations," + number.intValue());
+            broadcast("pendingQuotations," + async.getPendingQuotations());
+            broadcast("quotingQuotations," + async.getAssinedQuotations(userId));
         }
         else {
             session.close();
