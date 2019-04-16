@@ -65,7 +65,7 @@ public class QuotationInternalApiV2 {
                     + "select c.quotationId from Assignment c where c.status = :value1 and c.assignee = :value2)";
             List<Quotation> quotations = dao.getJPQLParams(Quotation.class, jpql, 'W', 'A', userId);
             for (Quotation quotation : quotations) {
-                prepareQuotation(quotation, authHeader);
+                prepareQuotation(quotation);
             }
             return Response.status(200).entity(quotations).build();
 
@@ -86,7 +86,7 @@ public class QuotationInternalApiV2 {
             if (quotation == null) {
                 return Response.status(404).build();
             }
-            prepareQuotation(quotation, authHeader);
+            prepareQuotation(quotation);
             return Response.status(200).entity(quotation).build();
 
         } catch (Exception ex) {
@@ -159,7 +159,7 @@ public class QuotationInternalApiV2 {
             if (quotation == null) {
                 return Response.status(404).build();
             }
-            this.prepareQuotation(quotation, authHeader);
+            this.prepareQuotation(quotation);
             return Response.status(200).entity(quotation).build();
         } catch (Exception ex) {
             ex.getMessage();
@@ -170,13 +170,31 @@ public class QuotationInternalApiV2 {
 
     @SecuredUser
     @GET
+    @Path("quotations/customer/{param}")
+    public Response getCustomerQuotations(@PathParam(value = "param") long customerId) {
+        try {
+            String sql = "select b from Quotation b where b.customerId = :value0 order by created desc";
+            List<Quotation> quotations = dao.getJPQLParams(Quotation.class, sql, customerId);
+            for(Quotation quotation : quotations){
+                this.prepareQuotation(quotation);
+            }
+            return Response.status(200).entity(quotations).build();
+        } catch (Exception ex) {
+            ex.getMessage();
+            return Response.status(500).build();
+        }
+    }
+
+
+    @SecuredUser
+    @GET
     @Path("quotations/pending")
-    public Response getPendingQuotations(@HeaderParam("Authorization") String authHeader) {
+    public Response getPendingQuotations() {
         try {
             String jpql = "select b from Quotation b where b.status in (:value0, :value1, :value2, :value3) order by b.id";
             List<Quotation> quotations = dao.getJPQLParams(Quotation.class, jpql, 'N', 'W', 'R', 'A');
             for (Quotation quotation : quotations) {
-                prepareQuotation(quotation, authHeader);
+                prepareQuotation(quotation);
             }
             return Response.status(200).entity(quotations).build();
         } catch (Exception ex) {
@@ -650,7 +668,7 @@ public class QuotationInternalApiV2 {
         billItem.setBillItemResponses(responses);
     }
 
-    private void prepareQuotation(Quotation quotation, String authHeader) {
+    private void prepareQuotation(Quotation quotation) {
         try {
             appendQuotationItems(quotation);
             appendLastAssignment(quotation);
