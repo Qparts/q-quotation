@@ -80,6 +80,10 @@ public class AsyncService {
 
     @Asynchronous
     public void sendQuotationCompletionEmail(String authHeader, Quotation quotation){
+        Map<String, Object> map = new HashMap<String,Object>();
+        map.put("quotationId", quotation.getId());
+        map.put("customerId", quotation.getCustomerId());
+        Response r = postSecuredRequest(AppConstants.POST_QUOTATION_COMPLETTION_EMAIL, map, authHeader);
         //send some email
     }
 
