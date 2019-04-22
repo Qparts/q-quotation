@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Table(name="qut_quotation")
 @Entity
@@ -47,6 +46,13 @@ public class Quotation implements Serializable {
     @Column(name="customer_vehicle_id")
     private Long customerVehicleId;
 
+    @Column(name="read")
+    private boolean read;
+
+    @Column(name="read_on")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date readOn;
+
     @Transient
     private List<QuotationItem> quotationItems;
     @Transient
@@ -61,6 +67,8 @@ public class Quotation implements Serializable {
     public PublicQuotation getContract(){
         PublicQuotation pq = new PublicQuotation();
         pq.setId(this.getId());
+        pq.setCityId(this.getCityId());
+        pq.setRead(this.isRead());
         pq.setCreated(this.getCreated());
         pq.setCustomerId(this.getCustomerId());
         pq.setCustomerVehicleId(this.getCustomerVehicleId());
@@ -178,5 +186,22 @@ public class Quotation implements Serializable {
 
     public void setBills(List<Bill> bills) {
         this.bills = bills;
+    }
+
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    public Date getReadOn() {
+        return readOn;
+    }
+
+    public void setReadOn(Date readOn) {
+        this.readOn = readOn;
     }
 }

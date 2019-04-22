@@ -29,6 +29,22 @@ public class QuotationApiV2 {
     private AsyncService async;
 
     @SecuredCustomer
+    @PUT
+    @Path("quotaiton/read")
+    public Response readQuotation(long id){
+        try{
+            Quotation quotation = dao.find(Quotation.class, id);
+            quotation.setRead(true);
+            quotation.setReadOn(new Date());
+            dao.update(quotation);
+            return Response.status(201).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+
+    @SecuredCustomer
     @POST
     @Path("quotation")
     public Response createQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){

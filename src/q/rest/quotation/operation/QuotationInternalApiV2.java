@@ -553,6 +553,8 @@ public class QuotationInternalApiV2 {
         if (quotation != null) {
             quotation.setStatus('X');
             dao.update(quotation);
+            async.broadcastToQuotations("archive quotation," + quotation.getId());
+            async.broadcastToNotification("pendingQuotations," + async.getPendingQuotations());
         }
 
     }

@@ -84,7 +84,6 @@ public class AsyncService {
         map.put("quotationId", quotation.getId());
         map.put("customerId", quotation.getCustomerId());
         Response r = postSecuredRequest(AppConstants.POST_QUOTATION_COMPLETTION_EMAIL, map, authHeader);
-        //send some email
     }
 
     @Asynchronous

@@ -10,6 +10,8 @@ public class PublicQuotation {
     private long customerId;
     private Date created;
     private Long customerVehicleId;
+    private int cityId;
+    private boolean read;
     private List<PublicQuotationItem> quotationItems;
     private List<PublicComment> comments;
 
@@ -59,5 +61,21 @@ public class PublicQuotation {
 
     public void setComments(List<PublicComment> comments) {
         this.comments = comments;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
     }
 }
