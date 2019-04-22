@@ -31,8 +31,9 @@ public class QuotationApiV2 {
     @SecuredCustomer
     @PUT
     @Path("quotaiton/read")
-    public Response readQuotation(long id){
+    public Response readQuotation(Map<String,Object> map){
         try{
+            Long id = ((Number) map.get("quotationId")).longValue();
             Quotation quotation = dao.find(Quotation.class, id);
             quotation.setRead(true);
             quotation.setReadOn(new Date());
