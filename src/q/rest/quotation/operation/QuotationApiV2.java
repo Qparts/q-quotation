@@ -30,7 +30,7 @@ public class QuotationApiV2 {
 
     @SecuredCustomer
     @PUT
-    @Path("quotaiton/read")
+    @Path("quotation/read")
     public Response readQuotation(Map<String,Object> map){
         try{
             Long id = ((Number) map.get("quotationId")).longValue();
