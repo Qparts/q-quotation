@@ -8,6 +8,7 @@ import q.rest.quotation.model.contract.*;
 import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
+import javax.mail.Quota;
 import javax.ws.rs.*;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -34,7 +35,8 @@ public class QuotationApiV2 {
     public Response readQuotation(Map<String,Object> map){
         try{
             Long id = ((Number) map.get("quotationId")).longValue();
-            Quotation quotation = dao.find(Quotation.class, id);
+            Long customerId = ((Number) map.get("customerId")).longValue();
+            Quotation quotation = dao.findTwoConditions(Quotation.class, "id", "customerId", id, customerId);
             quotation.setRead(true);
             quotation.setReadOn(new Date());
             dao.update(quotation);
