@@ -42,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="42" column="32" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="32" />
+            <state relative-caret-position="397">
+              <caret line="44" selection-start-line="44" selection-end-line="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -379,12 +379,12 @@
       <workItem from="1555425017535" duration="4960000" />
       <workItem from="1555927679298" duration="3220000" />
       <workItem from="1556099713934" duration="2209000" />
-      <workItem from="1556203806690" duration="237000" />
+      <workItem from="1556203806690" duration="795000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126047000" />
+    <option name="totallyTimeSpent" value="126605000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -810,8 +810,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="42" column="32" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="32" />
+        <state relative-caret-position="397">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

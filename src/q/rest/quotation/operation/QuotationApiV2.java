@@ -34,22 +34,14 @@ public class QuotationApiV2 {
     @Path("quotation/read")
     public Response readQuotation(Map<String,Object> map){
         try{
-            System.out.println("1");
             Long id = ((Number) map.get("quotationId")).longValue();
-            System.out.println("2" + "    " + id);
             Long customerId = ((Number) map.get("customerId")).longValue();
-            System.out.println("3" + "    " + customerId);
             Quotation quotation = dao.findTwoConditions(Quotation.class, "id", "customerId", id, customerId);
-            System.out.println("4");
             quotation.setRead(true);
-            System.out.println("5");
             quotation.setReadOn(new Date());
-            System.out.println("6");
             dao.update(quotation);
-            System.out.println("read successfully");
             return Response.status(201).build();
         }catch (Exception ex){
-            ex.printStackTrace();
             return Response.status(500).build();
         }
     }
