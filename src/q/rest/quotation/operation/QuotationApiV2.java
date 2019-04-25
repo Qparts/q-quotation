@@ -40,8 +40,10 @@ public class QuotationApiV2 {
             quotation.setRead(true);
             quotation.setReadOn(new Date());
             dao.update(quotation);
+            System.out.println("read successfully");
             return Response.status(201).build();
         }catch (Exception ex){
+            ex.printStackTrace();
             return Response.status(500).build();
         }
     }
