@@ -33,10 +33,10 @@ public class CustomerNotificationEndPoint {
 
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("customerId") Long customerId, @PathParam("token") String token) throws IOException {
+    public void onOpen(Session session, @PathParam("customerId") Number customerId, @PathParam("token") String token) throws IOException {
         System.out.println("openning customer id " + customerId);
         this.session = session;
-        this.customerId = customerId;
+        this.customerId = customerId.longValue();
         this.token = token;
         if(this.tokenMatched()) {
             notificationsEndPoints.add(this);
