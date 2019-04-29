@@ -34,6 +34,7 @@ public class CustomerNotificationEndPoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("customerId") Long customerId, @PathParam("token") String token) throws IOException {
+        System.out.println("openning customer id " + customerId);
         this.session = session;
         this.customerId = customerId;
         this.token = token;
