@@ -25,7 +25,6 @@ public class CustomerNotificationEndPoint {
     private String token;
     private static Set<CustomerNotificationEndPoint> notificationsEndPoints = new CopyOnWriteArraySet<>();
 
-
     @OnMessage
     public String onMessage(String message) {
         return (message);
@@ -33,7 +32,7 @@ public class CustomerNotificationEndPoint {
 
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("customerId") Number customerId, @PathParam("token") String token) throws IOException {
+    public void onOpen(Session session, @PathParam("customerId") Integer customerId, @PathParam("token") String token) throws IOException {
         System.out.println("openning customer id " + customerId);
         this.session = session;
         this.customerId = customerId.longValue();
