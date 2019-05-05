@@ -453,6 +453,7 @@ public class QuotationInternalApiV2 {
                 async.sendQuotationCompletionSms(authHeader, quotation);
                 async.broadcastToQuotations("submit quotation," + quotation.getId());
                 async.broadcastToNotification("pendingQuotations," + async.getPendingQuotations());
+                async.sendToCustomerNotification("quotationComplete" , quotation.getCustomerId());
             }
             else{
                 // quotation completed but cart does not have items! set as ready for submission

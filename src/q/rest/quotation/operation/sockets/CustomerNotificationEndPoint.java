@@ -33,13 +33,11 @@ public class CustomerNotificationEndPoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("customerId") Long customerId, @PathParam("token") String token) throws IOException {
-        System.out.println("openning customer id " + customerId);
         this.session = session;
-        this.customerId = customerId.longValue();
+        this.customerId = customerId;
         this.token = token;
         if(this.tokenMatched()) {
             notificationsEndPoints.add(this);
-            broadcast("Hello Ahmad! you are connected! this is a broadcast message");
         }
         else {
             session.close();
@@ -53,7 +51,7 @@ public class CustomerNotificationEndPoint {
     }
 
 
-    public static void sendToCustomer(String message, int customerId) {
+    public static void sendToCustomer(String message, long customerId) {
         notificationsEndPoints.forEach(endpoint -> {
             synchronized (endpoint) {
                 if (endpoint.session.isOpen()) {

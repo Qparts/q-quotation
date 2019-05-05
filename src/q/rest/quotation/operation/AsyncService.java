@@ -5,6 +5,7 @@ import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.model.contract.CreateQuotationItemRequest;
 import q.rest.quotation.model.contract.CreateQuotationRequest;
 import q.rest.quotation.model.entity.*;
+import q.rest.quotation.operation.sockets.CustomerNotificationEndPoint;
 import q.rest.quotation.operation.sockets.NotificationsEndPoint;
 import q.rest.quotation.operation.sockets.QuotationsEndPoint;
 import q.rest.quotation.operation.sockets.QuotingEndpoint;
@@ -104,6 +105,12 @@ public class AsyncService {
     @Asynchronous
     public void broadcastToNotification(String message){
         NotificationsEndPoint.broadcast(message);
+    }
+
+
+    @Asynchronous
+    public void sendToCustomerNotification(String message, long customerId){
+        CustomerNotificationEndPoint.sendToCustomer(message, customerId);
     }
 
 
