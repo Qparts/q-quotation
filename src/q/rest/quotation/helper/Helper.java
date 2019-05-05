@@ -6,10 +6,7 @@ import q.rest.quotation.model.entity.Comment;
 import q.rest.quotation.model.entity.QuotationItem;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Helper {
 
@@ -36,6 +33,40 @@ public class Helper {
         return sdf.format(date);
     }
 
+    public static Date getToDate(int month, int year) {
+        Date to = new Date();
+        Calendar cTo = new GregorianCalendar();
+        if (month == 12) {
+            cTo.set(year, 11, 31, 0, 0, 0);
+        } else {
+            cTo.set(year, month, 1, 0, 0, 0);
+            cTo.set(Calendar.DAY_OF_MONTH, cTo.getActualMaximum(Calendar.DAY_OF_MONTH));
+        }
+        cTo.set(Calendar.HOUR_OF_DAY, 23);
+        cTo.set(Calendar.MINUTE, 59);
+        cTo.set(Calendar.SECOND, 59);
+        cTo.set(Calendar.MILLISECOND, cTo.getActualMaximum(Calendar.MILLISECOND));
+        to.setTime(cTo.getTimeInMillis());
+        return to;
+    }
+
+
+
+    public static Date getFromDate(int month, int year) {
+        Date from = new Date();
+        if (month == 12) {
+            Calendar cFrom = new GregorianCalendar();
+            cFrom.set(year, 0, 1, 0, 0, 0);
+            cFrom.set(Calendar.MILLISECOND, 0);
+            from.setTime(cFrom.getTimeInMillis());
+        } else {
+            Calendar cFrom = new GregorianCalendar();
+            cFrom.set(year, month, 1, 0, 0, 0);
+            cFrom.set(Calendar.MILLISECOND, 0);
+            from.setTime(cFrom.getTimeInMillis());
+        }
+        return from;
+    }
 
 
 

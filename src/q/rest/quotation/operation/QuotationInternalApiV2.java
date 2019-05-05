@@ -1,6 +1,7 @@
 package q.rest.quotation.operation;
 
 import q.rest.quotation.dao.DAO;
+import q.rest.quotation.filter.SecuredCustomer;
 import q.rest.quotation.filter.SecuredUser;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
@@ -30,6 +31,24 @@ public class QuotationInternalApiV2 {
 
     @EJB
     private AsyncService async;
+
+    @SecuredUser
+    @GET
+    @Path("quotations/year/{year}/month/{month}")
+    public Response getQuotationsReport(@PathParam(value = "year") int year, @PathParam(value = "month") int month){
+        try{
+            Date from = Helper.getFromDate(month, year);
+            Date to = Helper.getToDate(month, year);
+            String jpql = "select b from Quotation b where b.created between :value0 and :value1 order by b.created asc";
+            List<Quotation> quotations = dao.getJPQLParams(Quotation.class, jpql, from, to);
+            for(var quotation : quotations){
+                this.prepareQuotation(quotation);
+            }
+            return Response.status(200).entity(quotations).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
 
 
     @SecuredUser
@@ -456,6 +475,7 @@ public class QuotationInternalApiV2 {
                 async.sendToCustomerNotification("quotationComplete" , quotation.getCustomerId());
             }
             else{
+
                 // quotation completed but cart does not have items! set as ready for submission
                 // for archiving!
                 quotation.setStatus('R');// all items not available
