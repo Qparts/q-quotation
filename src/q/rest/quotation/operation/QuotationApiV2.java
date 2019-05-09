@@ -106,6 +106,32 @@ public class QuotationApiV2 {
 
     @SecuredCustomer
     @GET
+    @Path("quotations/customer/{customerId}/closed")
+    public Response getCustomerCloseddQuotations(@PathParam(value="customerId") long customerId){
+        try{
+            String sql = "select b from Quotation b where b.customerId= :value0 and b.status in (:value1, :value2)";
+            List<Quotation> quotations = dao.getJPQLParams(Quotation.class, sql, customerId, 'Y', 'X');
+            List<PublicQuotation> publicQuotations = new ArrayList<>();
+            for(Quotation quotation : quotations){
+                PublicQuotation publicQuotation = quotation.getContract();
+                //add quotation items
+                List<QuotationItem> quotationItems = dao.getCondition(QuotationItem.class, "quotationId", quotation.getId());
+                publicQuotation.setQuotationItems(Helper.convertQuotationItemsToContract(quotationItems));
+                //add public comments
+                List<Comment> comments = dao.getTwoConditions(Comment.class, "quotationId" , "visibleToCustomer" , quotation.getId(), true);
+                publicQuotation.setComments(Helper.convertCommentsToContract(comments));
+                //add to arraylist
+                publicQuotations.add(publicQuotation);
+            }
+            return Response.status(200).entity(publicQuotations).build();
+
+        }catch (Exception ex){
+            return getServerErrorResponse();
+        }
+    }
+
+    @SecuredCustomer
+    @GET
     @Path("quotations/customer/{customerId}/completed")
     public Response getCustomerQuotations(@HeaderParam("Authorization") String header, @PathParam(value="customerId") long customerId){
         try{

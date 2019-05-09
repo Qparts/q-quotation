@@ -7,9 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,11 +30,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+            <state relative-caret-position="220">
+              <caret line="36" column="54" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="244">
+              <caret line="109" column="38" selection-start-line="109" selection-start-column="38" selection-end-line="109" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -139,12 +149,12 @@
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/NotificationsEndPoint.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotation.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java" />
-        <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" />
+        <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" />
       </list>
     </option>
   </component>
@@ -352,12 +362,12 @@
       <workItem from="1556203806690" duration="8616000" />
       <workItem from="1557046105364" duration="119000" />
       <workItem from="1557094804994" duration="2361000" />
-      <workItem from="1557188100761" duration="2453000" />
+      <workItem from="1557188100761" duration="4293000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="139359000" />
+    <option name="totallyTimeSpent" value="141199000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -372,7 +382,7 @@
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23891273" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23891273" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Persistence" order="3" side_tool="true" />
@@ -383,7 +393,7 @@
       <window_info id="Web" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32863188" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32765958" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32765958" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -727,16 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-74">
-          <caret line="43" column="30" lean-forward="true" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/entity/QuotationItem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
@@ -795,8 +795,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+        <state relative-caret-position="220">
+          <caret line="36" column="54" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="109" column="38" selection-start-line="109" selection-start-column="38" selection-end-line="109" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
