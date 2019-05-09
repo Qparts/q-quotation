@@ -46,7 +46,7 @@ public class CustomerNotificationEndPoint {
 
 
     @OnClose
-    public void onClose(Session session, CloseReason reason) {
+    public void onClose(Session session, CloseReason reason){
         notificationsEndPoints.remove(this);
     }
 
