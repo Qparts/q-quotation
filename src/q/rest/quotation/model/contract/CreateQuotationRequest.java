@@ -11,6 +11,7 @@ public class CreateQuotationRequest {
     private long customerId;
     private int cityId;
     private int makeId;
+    private String mobile;
     private Integer vehicleYearId;
     private String vin;
     private Boolean imageAttached;
@@ -90,5 +91,13 @@ public class CreateQuotationRequest {
 
     public void setMakeId(int makeId) {
         this.makeId = makeId;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

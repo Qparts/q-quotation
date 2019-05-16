@@ -8,7 +8,6 @@ import q.rest.quotation.model.contract.*;
 import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
-import javax.mail.Quota;
 import javax.ws.rs.*;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -236,6 +235,7 @@ public class QuotationApiV2 {
         quotation.setCityId(qr.getCityId());
         quotation.setCreated(new Date());
         quotation.setCreatedBy(0);
+        quotation.setMobile(qr.getMobile());
         quotation.setCustomerId(qr.getCustomerId());
         qr.setCustomerVehicleNewlyCreated(false);
         if(qr.getCustomerVehicleId() == null){
@@ -247,6 +247,7 @@ public class QuotationApiV2 {
             map.put("vin", qr.getVin());
             map.put("imageAttached", qr.getImageAttached());
             map.put("customerId", qr.getCustomerId());
+            map.put("mobile", qr.getMobile());
             System.out.println("=======================");
             System.out.println("vehicle year id = " +qr.getVehicleYearId());
             System.out.println("vin = " +qr.getVin());

@@ -53,6 +53,9 @@ public class Quotation implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date readOn;
 
+    @Column(name="mobile")
+    private String mobile;
+
     @Transient
     private List<QuotationItem> quotationItems;
     @Transient
@@ -203,5 +206,14 @@ public class Quotation implements Serializable {
 
     public void setReadOn(Date readOn) {
         this.readOn = readOn;
+    }
+
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

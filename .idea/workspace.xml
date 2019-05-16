@@ -8,7 +8,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,25 +22,9 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="87" column="5" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3636#3637#0" expanded="true" />
-                <element signature="e#3712#3713#0" expanded="true" />
-                <element signature="e#3768#3769#0" expanded="true" />
-                <element signature="e#5175#5176#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
+            <state relative-caret-position="90">
               <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -49,10 +35,19 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-252">
+              <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
+            <state relative-caret-position="6795">
               <caret line="472" column="42" selection-start-line="472" selection-start-column="42" selection-end-line="472" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -84,7 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>redu</find>
       <find>dao</find>
       <find>broadc</find>
       <find>broad</find>
@@ -114,6 +108,7 @@
       <find>async.send</find>
       <find>async</find>
       <find>async.</find>
+      <find>&quot;quotation</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -150,18 +145,18 @@
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/NotificationsEndpoint.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationItemRequest.java" />
         <option value="/srv/wildfly-14.0.1.Final/standalone/configuration/standalone.xml" />
-        <option value="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationResponse.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/QuotationsNotificationsEndPoint.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/NotificationsEndPoint.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotation.java" />
-        <option value="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java" />
-        <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" />
         <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" />
+        <option value="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java" />
+        <option value="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java" />
+        <option value="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" />
       </list>
     </option>
   </component>
@@ -184,7 +179,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -220,14 +214,6 @@
             <path>
               <item name="q-rest-quotation" type="b2602c69:ProjectViewProjectNode" />
               <item name="q-rest-quotation" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="quotation" type="462c0819:PsiDirectoryNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="sockets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="q-rest-quotation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="q-rest-quotation" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -244,12 +230,13 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557569466004" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557569501264" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -378,12 +365,14 @@
       <workItem from="1557046105364" duration="119000" />
       <workItem from="1557094804994" duration="2361000" />
       <workItem from="1557188100761" duration="4546000" />
-      <workItem from="1557402358464" duration="744000" />
+      <workItem from="1557402358464" duration="848000" />
+      <workItem from="1557707156682" duration="1389000" />
+      <workItem from="1558005611573" duration="128000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142196000" />
+    <option name="totallyTimeSpent" value="143817000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -396,6 +385,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23891273" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -502,12 +492,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/artifacts/web_war_exploded.xml" />
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/jboss-web.xml">
-      <provider editor-type-id="com.intellij.javaee.oss.jboss.editor.JBossWebRootProvider" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
         </state>
       </provider>
+      <provider editor-type-id="com.intellij.javaee.oss.jboss.editor.JBossWebRootProvider" />
     </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/META-INF/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor">
@@ -633,16 +623,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotationItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///srv/wildfly-14.0.1.Final/standalone/configuration/standalone.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="383">
@@ -681,18 +661,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#545#546#0" expanded="true" />
-            <element signature="e#595#596#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/QuotationsNotificationsEndPoint.java" />
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/QuotationsEndPoint.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -708,37 +676,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="73" column="29" selection-start-line="73" selection-start-column="29" selection-end-line="73" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1414#1415#0" expanded="true" />
-            <element signature="e#1443#1444#0" expanded="true" />
-            <element signature="e#1484#1485#0" expanded="true" />
-            <element signature="e#1520#1521#0" expanded="true" />
-            <element signature="e#1604#1605#0" expanded="true" />
-            <element signature="e#1645#1646#0" expanded="true" />
-            <element signature="e#1677#1678#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/dao/DAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
           <caret line="145" column="17" selection-start-line="145" selection-start-column="17" selection-end-line="145" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="70" column="31" selection-start-line="70" selection-start-column="31" selection-end-line="70" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -776,40 +717,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="31" column="61" selection-start-line="31" selection-start-column="61" selection-end-line="31" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="129" column="9" lean-forward="true" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="472" column="42" selection-start-line="472" selection-start-column="42" selection-end-line="472" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="87" column="5" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
+        <state relative-caret-position="292">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3636#3637#0" expanded="true" />
@@ -820,15 +731,93 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotationItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1577#1578#0" expanded="true" />
+            <element signature="e#1604#1605#0" expanded="true" />
+            <element signature="e#1645#1646#0" expanded="true" />
+            <element signature="e#1677#1678#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
+        <state relative-caret-position="90">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1415#1416#0" expanded="true" />
             <element signature="e#1466#1467#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6795">
+          <caret line="472" column="42" selection-start-line="472" selection-start-column="42" selection-end-line="472" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="31" column="61" selection-start-line="31" selection-start-column="61" selection-end-line="31" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2205">
+          <caret line="211" column="31" selection-start-line="211" selection-start-column="31" selection-end-line="211" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4626#4627#0" expanded="true" />
+            <element signature="e#4670#4671#0" expanded="true" />
+            <element signature="e#4706#4707#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="60" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2198#2199#0" expanded="true" />
+            <element signature="e#2227#2228#0" expanded="true" />
+            <element signature="e#2271#2272#0" expanded="true" />
+            <element signature="e#2307#2308#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-252">
+          <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
         </state>
       </provider>
     </entry>
