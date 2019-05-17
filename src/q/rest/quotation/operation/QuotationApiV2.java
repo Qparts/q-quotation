@@ -247,7 +247,6 @@ public class QuotationApiV2 {
             map.put("vin", qr.getVin());
             map.put("imageAttached", qr.getImageAttached());
             map.put("customerId", qr.getCustomerId());
-            map.put("mobile", qr.getMobile());
             System.out.println("=======================");
             System.out.println("vehicle year id = " +qr.getVehicleYearId());
             System.out.println("vin = " +qr.getVin());
@@ -267,6 +266,7 @@ public class QuotationApiV2 {
                 qr.setCustomerVehicleNewlyCreated(false);
             }
         }
+        quotation.setMobile(qr.getMobile());
         quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
         quotation.setMakeId(qr.getMakeId());
         quotation.setStatus('N');

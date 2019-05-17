@@ -10,6 +10,13 @@ import java.util.*;
 
 public class Helper {
 
+    public static String getFullMobile(String mobile, String countryCode){
+        String mobileFull = mobile;
+        mobileFull = mobileFull.replaceFirst("^0+(?!$)", "");
+        mobileFull = countryCode + mobileFull;
+        return mobileFull;
+    }
+
     public static int getRandomInteger(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
