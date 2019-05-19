@@ -35,14 +35,14 @@ public class QuotationInternalApiV2 {
     @SecuredUser
     @GET
     @Path("quotations/year/{year}/month/{month}/status/{status}")
-    public Response getQuotationsReport(@PathParam(value = "year") int year, @PathParam(value = "month") int month, @PathParam(value="status") char status){
+    public Response getQuotationsReport(@PathParam(value = "year") int year, @PathParam(value = "month") int month, @PathParam(value="status") String status){
         try{
             Date from = Helper.getFromDate(month, year);
             Date to = Helper.getToDate(month, year);
             String jpql = "select b from Quotation b where b.created between :value0 and :value1 and b.status ";
-            jpql += (status == 'A' ? "!= :value2" : "= :value2");
+            jpql += (status.equals("A") ? "!= :value2" : "= :value2");
             jpql += " order by b.created asc";
-            List<Quotation> quotations = dao.getJPQLParams(Quotation.class, jpql, from, to, status);
+            List<Quotation> quotations = dao.getJPQLParams(Quotation.class, jpql, from, to, status.charAt(0));
             for(var quotation : quotations){
                 this.prepareQuotation(quotation);
             }
