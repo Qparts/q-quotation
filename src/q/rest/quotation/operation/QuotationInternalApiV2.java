@@ -1,10 +1,10 @@
 package q.rest.quotation.operation;
 
 import q.rest.quotation.dao.DAO;
-import q.rest.quotation.filter.SecuredCustomer;
 import q.rest.quotation.filter.SecuredUser;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
+import q.rest.quotation.model.contract.CreateNewQuotationItem;
 import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
@@ -16,10 +16,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Path("/internal/api/v2/")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -48,6 +45,42 @@ public class QuotationInternalApiV2 {
             }
             return Response.status(200).entity(quotations).build();
         }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+    @SecuredUser
+    @POST
+    @Path("quotation-item")
+    public Response addNewQuotationItem(CreateNewQuotationItem map){
+        try{
+
+            dao.persist(map.getQuotationItem());
+            Quotation quotation = dao.find(Quotation.class, map.getQuotationItem().getQuotationId());
+
+            Bill bill = new Bill();
+            bill.setCreatedBy(map.getCreatedBy());
+            bill.setCreated(new Date());
+            bill.setStatus('W');
+            bill.setQuotationId(quotation.getId());
+            dao.persist(bill);
+
+            BillItem billItem = new BillItem();
+            billItem.setStatus('W');
+            billItem.setCreated(new Date());
+            billItem.setBillId(bill.getId());
+            billItem.setQuotationId(quotation.getId());
+            billItem.setQuantity(map.getQuotationItem().getQuantity());
+            billItem.setItemDesc(map.getQuotationItem().getName());
+            billItem.setCreatedBy(map.getCreatedBy()    );
+            dao.persist(billItem);
+
+            quotation.setStatus('W');
+            dao.update(quotation);
+
+            return Response.status(201).build();
+        }catch(Exception ex){
+            ex.printStackTrace();
             return Response.status(500).build();
         }
     }
