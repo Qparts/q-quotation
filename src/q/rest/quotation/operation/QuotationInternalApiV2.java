@@ -72,7 +72,7 @@ public class QuotationInternalApiV2 {
             billItem.setQuotationId(quotation.getId());
             billItem.setQuantity(map.getQuotationItem().getQuantity());
             billItem.setItemDesc(map.getQuotationItem().getName());
-            billItem.setCreatedBy(map.getCreatedBy()    );
+            billItem.setCreatedBy(map.getCreatedBy());
             dao.persist(billItem);
 
             quotation.setStatus('W');
@@ -503,8 +503,7 @@ public class QuotationInternalApiV2 {
                 completeQuotationAssignment(quotationId);
                 quotation.setStatus('S');
                 dao.update(quotation);
-                async.sendQuotationCompletionEmail(authHeader, quotation);
-                async.sendQuotationCompletionSms(authHeader, quotation);
+                async.sendQuotationCompletion(authHeader, quotation);
                 async.broadcastToQuotations("submit quotation," + quotation.getId());
                 async.broadcastToNotification("pendingQuotations," + async.getPendingQuotations());
                 async.sendToCustomerNotification("quotationComplete" , quotation.getCustomerId());

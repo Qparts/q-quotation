@@ -80,7 +80,7 @@ public class AsyncService {
     }
 
     @Asynchronous
-    public void sendQuotationCompletionEmail(String authHeader, Quotation quotation) {
+    public void sendQuotationCompletion(String authHeader, Quotation quotation) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("quotationId", quotation.getId());
         map.put("customerId", quotation.getCustomerId());
@@ -89,7 +89,7 @@ public class AsyncService {
 
     @Asynchronous
     public void sendQuotationCompletionSms(String authHeader, Quotation quotation){
-        //send some email
+
     }
 
     @Asynchronous

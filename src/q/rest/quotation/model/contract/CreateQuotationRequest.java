@@ -16,6 +16,7 @@ public class CreateQuotationRequest {
     private String vin;
     private Boolean imageAttached;
     private List<CreateQuotationItemRequest> quotationItems;
+    private Integer appCode;
     @JsonIgnore
     private Boolean customerVehicleNewlyCreated;
 
@@ -99,5 +100,13 @@ public class CreateQuotationRequest {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public Integer getAppCode() {
+        return appCode;
+    }
+
+    public void setAppCode(Integer appCode) {
+        this.appCode = appCode;
     }
 }

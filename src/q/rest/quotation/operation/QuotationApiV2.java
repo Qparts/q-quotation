@@ -1,6 +1,7 @@
 package q.rest.quotation.operation;
 
 import q.rest.quotation.dao.DAO;
+import q.rest.quotation.filter.Secured;
 import q.rest.quotation.filter.SecuredCustomer;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
@@ -46,7 +47,10 @@ public class QuotationApiV2 {
     }
 
 
-    @SecuredCustomer
+
+
+
+    @Secured
     @POST
     @Path("quotation")
     public Response createQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
@@ -54,7 +58,13 @@ public class QuotationApiV2 {
             if (isQuotationRedudant(qr.getCustomerId(), new Date())) {
                 return Response.status(429).build();
             }
-            WebApp wa = this.getWebAppFromAuthHeader(header);
+            WebApp wa;
+            if(qr.getAppCode() == null){
+                wa = this.getWebAppFromAuthHeader(header);
+            }
+            else{
+                wa = dao.find(WebApp.class, qr.getAppCode());
+            }
             Quotation quotation = createQuotation(qr, wa, header);
             createQuotationItems(quotation, qr.getQuotationItems());
             async.completeQuotationCreation(quotation, qr, header);
@@ -76,6 +86,40 @@ public class QuotationApiV2 {
         }
     }
 
+    private List<PublicQuotation> getPublicQuotations(List<Quotation> quotations){
+        List<PublicQuotation> publicQuotations = new ArrayList<>();
+        for(Quotation quotation : quotations){
+            PublicQuotation publicQuotation = getPublicQuotation(quotation);
+            publicQuotations.add(publicQuotation);
+        }
+        return publicQuotations;
+    }
+
+
+    @SecuredCustomer
+    @PUT
+    @Path("close-quotation")
+    public Response closeQuotation(Map<String,Object> map){
+        try{
+            long quotaitonId = ((Number) map.get("quotationId")).longValue();
+
+            Quotation q = dao.find(Quotation.class, quotaitonId);
+            q.setStatus('C');
+            dao.update(q);
+            Comment comment = new Comment();
+            comment.setCreated(new Date());
+            comment.setText("Closed by customer");
+            comment.setCreatedBy(0);
+            comment.setQuotationId(quotaitonId);
+            comment.setStatus('Y');
+            comment.setVisibleToCustomer(false);
+            dao.persist(comment);
+            return Response.status(201).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
 
     @SecuredCustomer
     @GET
@@ -84,24 +128,71 @@ public class QuotationApiV2 {
         try{
             String sql = "select b from Quotation b where b.customerId= :value0 and b.status in (:value1, :value2, :value3)";
             List<Quotation> quotations = dao.getJPQLParams(Quotation.class, sql, customerId, 'W', 'R', 'A');
-            List<PublicQuotation> publicQuotations = new ArrayList<>();
-            for(Quotation quotation : quotations){
-                PublicQuotation publicQuotation = quotation.getContract();
-                //add quotation items
-                List<QuotationItem> quotationItems = dao.getCondition(QuotationItem.class, "quotationId", quotation.getId());
-                publicQuotation.setQuotationItems(Helper.convertQuotationItemsToContract(quotationItems));
-                //add public comments
-                List<Comment> comments = dao.getTwoConditions(Comment.class, "quotationId" , "visibleToCustomer" , quotation.getId(), true);
-                publicQuotation.setComments(Helper.convertCommentsToContract(comments));
-                //add to arraylist
-                publicQuotations.add(publicQuotation);
-            }
+            List<PublicQuotation> publicQuotations = getPublicQuotations(quotations);
             return Response.status(200).entity(publicQuotations).build();
 
         }catch (Exception ex){
             return getServerErrorResponse();
         }
     }
+
+    private PublicQuotation getPublicQuotation(Quotation quotation){
+        PublicQuotation publicQuotation = quotation.getContract();
+        //add quotation items
+        List<QuotationItem> quotationItems = dao.getCondition(QuotationItem.class, "quotationId", quotation.getId());
+        publicQuotation.setQuotationItems(Helper.convertQuotationItemsToContract(quotationItems));
+        //add public comments
+        List<Comment> comments = dao.getTwoConditions(Comment.class, "quotationId" , "visibleToCustomer" , quotation.getId(), true);
+        publicQuotation.setComments(Helper.convertCommentsToContract(comments));
+        return publicQuotation;
+    }
+
+
+    private void initProductsToQuotationItems(PublicQuotation publicQuotation, String header){
+        String sql = "select b from BillItem b where b.id in (select c.billItemId from BillItemResponse c where c.status = :value0 and c.quotationId = :value1) ";
+        List<BillItem> billItems = dao.getJPQLParams(BillItem.class, sql, 'C', publicQuotation.getId());
+        publicQuotation.setQuotationItems(new ArrayList<>());
+        for(BillItem billItem : billItems){
+            PublicQuotationItem pqi = billItem.getContract();
+            sql = "select b from BillItemResponse b where b.billItemId = :value0 and b.status = :value1";
+            List<BillItemResponse> billItemResponses = dao.getJPQLParams(BillItemResponse.class, sql, billItem.getId(), 'C');
+
+            for(BillItemResponse bir : billItemResponses){
+                Response r = this.getSecuredRequest(AppConstants.getPublicProduct(bir.getProductId()), header);
+                if(r.getStatus() == 200){
+                    Map map = r.readEntity(Map.class);
+                    pqi.setProducts(map);
+                }
+            }
+
+            publicQuotation.getQuotationItems().add(pqi);
+        }
+    }
+
+
+
+    @SecuredCustomer
+    @GET
+    @Path("quotation/{quotationId}")
+    public Response getQuotation(@HeaderParam("Authorization") String header, @PathParam(value = "quotationId") long quotationId){
+        try{
+            long customerId = getCustomerIdFromHeader(header);
+            System.out.println(customerId);
+            Quotation quotation = dao.findTwoConditions(Quotation.class, "id", "customerId",  quotationId, customerId);
+            if(quotation == null){
+                return Response.status(404).build();
+            }
+            PublicQuotation publicQuotation = getPublicQuotation(quotation);
+            initProductsToQuotationItems(publicQuotation, header);
+            return Response.status(200).entity(publicQuotation).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+
+
+
 
     @SecuredCustomer
     @GET
@@ -110,18 +201,7 @@ public class QuotationApiV2 {
         try{
             String sql = "select b from Quotation b where b.customerId= :value0 and b.status in (:value1, :value2)";
             List<Quotation> quotations = dao.getJPQLParams(Quotation.class, sql, customerId, 'Y', 'X');
-            List<PublicQuotation> publicQuotations = new ArrayList<>();
-            for(Quotation quotation : quotations){
-                PublicQuotation publicQuotation = quotation.getContract();
-                //add quotation items
-                List<QuotationItem> quotationItems = dao.getCondition(QuotationItem.class, "quotationId", quotation.getId());
-                publicQuotation.setQuotationItems(Helper.convertQuotationItemsToContract(quotationItems));
-                //add public comments
-                List<Comment> comments = dao.getTwoConditions(Comment.class, "quotationId" , "visibleToCustomer" , quotation.getId(), true);
-                publicQuotation.setComments(Helper.convertCommentsToContract(comments));
-                //add to arraylist
-                publicQuotations.add(publicQuotation);
-            }
+            List<PublicQuotation> publicQuotations = getPublicQuotations(quotations);
             return Response.status(200).entity(publicQuotations).build();
 
         }catch (Exception ex){
@@ -138,26 +218,8 @@ public class QuotationApiV2 {
             List<Quotation> quotations = dao.getJPQLParams(Quotation.class, sql, customerId, 'S');
             List<PublicQuotation> publicQuotations = new ArrayList<>();
             for(Quotation quotation : quotations){
-
                 PublicQuotation publicQuotation = quotation.getContract();
-                sql = "select b from BillItem b where b.id in (select c.billItemId from BillItemResponse c where c.status = :value0 and c.quotationId = :value1) ";
-                List<BillItem> billItems = dao.getJPQLParams(BillItem.class, sql, 'C', quotation.getId());
-                publicQuotation.setQuotationItems(new ArrayList<>());
-                for(BillItem billItem : billItems){
-                    PublicQuotationItem pqi = billItem.getContract();
-                    sql = "select b from BillItemResponse b where b.billItemId = :value0 and b.status = :value1";
-                    List<BillItemResponse> billItemResponses = dao.getJPQLParams(BillItemResponse.class, sql, billItem.getId(), 'C');
-
-                    for(BillItemResponse bir : billItemResponses){
-                        Response r = this.getSecuredRequest(AppConstants.getPublicProduct(bir.getProductId()), header);
-                        if(r.getStatus() == 200){
-                            Map map = r.readEntity(Map.class);
-                            pqi.setProducts(map);
-                        }
-                    }
-
-                    publicQuotation.getQuotationItems().add(pqi);
-                }
+                initProductsToQuotationItems(publicQuotation, header);
                 List<Comment> comments = dao.getTwoConditions(Comment.class, "quotationId" , "visibleToCustomer" , quotation.getId(), true);
                 publicQuotation.setComments(Helper.convertCommentsToContract(comments));
                 publicQuotations.add(publicQuotation);
@@ -181,8 +243,19 @@ public class QuotationApiV2 {
         Date previous = Helper.addSeconds(created, -15);
         List<Quotation> carts = dao.getJPQLParams(Quotation.class, jpql, customerId, previous, created);
         return carts.size() > 0;
-
     }
+
+
+    private long getCustomerIdFromHeader(String header){
+        try{
+            String[] values = header.split("&&");
+            String customerId = values[1].trim();
+            return Long.parseLong(customerId);
+        } catch (Exception ex ){
+            return 0;
+        }
+    }
+
 
 
     private WebApp getWebAppFromAuthHeader(String authHeader) {
