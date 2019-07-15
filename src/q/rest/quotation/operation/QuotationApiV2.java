@@ -134,6 +134,11 @@ public class QuotationApiV2 {
                     dao.update(quotation);
                 }
             }
+            else{
+                //this is q.parts
+                quotation.setStatus('W');
+                dao.update('W');
+            }
             async.notifyCustomerOfQuotationCreation(quotation);
             CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
             return Response.status(200).entity(res).build();
