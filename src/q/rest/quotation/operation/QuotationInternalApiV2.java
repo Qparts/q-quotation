@@ -8,6 +8,7 @@ import q.rest.quotation.model.contract.CreateNewQuotationItem;
 import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
+import javax.mail.Quota;
 import javax.ws.rs.*;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -28,6 +29,29 @@ public class QuotationInternalApiV2 {
 
     @EJB
     private AsyncService async;
+
+
+
+
+    @SecuredUser
+    @POST
+    @Path("quotations-from-ids")
+    public Response getQuotationsFromIds(long[] qids) {
+        try {
+            String sql = "select * from qut_quotation where id in (0";
+            for (int i = 0; i < qids.length; i++) {
+                sql = sql + "," + qids[i];
+            }
+            sql = sql + ")";
+            List<Quotation> quotations = dao.getNative(Quotation.class, sql);
+            for(Quotation quotation : quotations){
+                this.prepareQuotation(quotation);
+            }
+            return Response.status(200).entity(quotations).build();
+        } catch (Exception ex) {
+            return Response.status(500).build();
+        }
+    }
 
     @SecuredUser
     @GET
@@ -184,6 +208,21 @@ public class QuotationInternalApiV2 {
             return Response.status(500).build();
         }
     }
+
+    @SecuredUser
+    @PUT
+    @Path("quotation")
+    public  Response updateQuotationAfterWireTransfer(Quotation quotation){
+        try{
+            dao.update(quotation);
+            async.broadcastToQuotations("new quotation," + quotation.getId());
+            async.broadcastToNotification("pendingQuotations," + async.getPendingQuotations());
+            return Response.status(201).build();
+        } catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
 
 
     @SecuredUser

@@ -28,16 +28,13 @@ public class AsyncService {
     @EJB
     private DAO dao;
 
-
     @Asynchronous
-    public void completeQuotationCreation(Quotation quotation, CreateQuotationRequest qr, String header) {
-        createBill(quotation);
-        broadcastToQuotations("new quotation," + quotation.getId());
-        broadcastToNotification("pendingQuotations," + getPendingQuotations());
+    public void notifyCustomerOfQuotationCreation(Quotation quotation) {
         sendQuotationCreationEmail(quotation.getId());
         sendQuotationCreateionSms(quotation.getId());
+        broadcastToQuotations("new quotation,"+quotation.getId());
+        broadcastToNotification("pendingQuotations,"+getPendingQuotations());
     }
-
 
     @Asynchronous
     public void createBill(Quotation quotation) {
@@ -58,8 +55,8 @@ public class AsyncService {
             bi.setStatus('W');
             dao.persist(bi);
         }
-        quotation.setStatus('W');
-        dao.update(quotation);
+        //quotation.setStatus('W');
+        //dao.update(quotation);
     }
 
     @Asynchronous

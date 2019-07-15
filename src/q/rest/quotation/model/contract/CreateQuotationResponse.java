@@ -8,6 +8,7 @@ public class CreateQuotationResponse {
     private List<Map<String,Object>> items;
     private String vehicleImageName;
     private boolean uploadImage;
+    private String transactionUrl;
 
     public boolean isUploadImage() {
         return uploadImage;
@@ -39,5 +40,13 @@ public class CreateQuotationResponse {
 
     public void setItems(List<Map<String, Object>> items) {
         this.items = items;
+    }
+
+    public String getTransactionUrl() {
+        return transactionUrl;
+    }
+
+    public void setTransactionUrl(String transactionUrl) {
+        this.transactionUrl = transactionUrl;
     }
 }

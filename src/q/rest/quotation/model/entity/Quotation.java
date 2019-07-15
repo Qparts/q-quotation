@@ -22,7 +22,7 @@ public class Quotation implements Serializable {
     private long customerId;
 
     @Column(name="status")
-    private char status;
+    private char status;//N = new, T = wire transfer, I = initiated for card payment, F = failed at cart payment
 
     @Column(name="app_code")
     private int appCode;

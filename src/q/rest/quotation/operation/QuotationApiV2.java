@@ -46,9 +46,30 @@ public class QuotationApiV2 {
         }
     }
 
-
-
-
+    @SecuredCustomer
+    @PUT
+    @Path("quotation/payment")
+    public Response updateQuotationAfterPayment(@HeaderParam("Authorization") String header, Map<String,Object> map){
+        try{
+            Long quotationId = ((Number) map.get("quotationId")).longValue();
+            String paymentStatus = (String) map.get("paymentStatus");
+            Quotation quotation = dao.find(Quotation.class, quotationId);
+            if(paymentStatus.equals("failed")){
+                quotation.setStatus('F');
+            }
+            else{
+                quotation.setStatus('W');
+            }
+            dao.update(quotation);
+            async.sendQuotationCreationEmail(quotation.getId());
+            async.sendQuotationCreateionSms(quotation.getId());
+            async.broadcastToQuotations("new quotation," + quotation.getId());
+            async.broadcastToNotification("pendingQuotations," + async.getPendingQuotations());
+            return Response.status(201).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
 
     @Secured
     @POST
@@ -62,28 +83,78 @@ public class QuotationApiV2 {
             if(qr.getAppCode() == null){
                 wa = this.getWebAppFromAuthHeader(header);
             }
+
             else{
                 wa = dao.find(WebApp.class, qr.getAppCode());
             }
             Quotation quotation = createQuotation(qr, wa, header);
             createQuotationItems(quotation, qr.getQuotationItems());
-            async.completeQuotationCreation(quotation, qr, header);
-            CreateQuotationResponse res = new CreateQuotationResponse();
-            res.setQuotationId(quotation.getId());
-            res.setItems(new ArrayList<>());
-            for(CreateQuotationItemRequest req : qr.getQuotationItems()){
-                Map<String,Object> map = new HashMap<>();
-                map.put("tempId", req.getTempId());
-                map.put("imageName" , req.getItemName());
-                res.getItems().add(map);
-                res.setVehicleImageName(qr.getCustomerVehicleId() + ".png");
-                res.setUploadImage(qr.getCustomerVehicleNewlyCreated() && qr.getImageAttached());
+            async.createBill(quotation);
+            if(wa.getAppCode() == 3){
+                Map<String,Object> map = new HashMap<String,Object>();
+                map.put("customerId", qr.getCustomerId());
+                map.put("quotationId", quotation.getId());
+                map.put("paymentMethod", qr.getPaymentMethood());
+                map.put("amount", 15);
+                if(qr.getPaymentMethood() == 'W'){
+                    Response r = postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_WIRE, map, header);
+                    if(r.getStatus() == 201){
+                        CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+                        return Response.status(200).entity(res).build();
+                    }
+                    else{
+                        throw new Exception();
+                    }
+                }
+                else if(qr.getPaymentMethood() == 'M' || qr.getPaymentMethood() == 'V'){
+                    map.put("cardHolder", qr.getCardHolder());
+                    Response r = postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_CC, map, header);
+                    if(r.getStatus() == 400){
+                        //bad credit card request
+                        return Response.status(400).entity("bad request from gateway").build();
+                    }
+                    if(r.getStatus() == 401){
+                        String reason = r.readEntity(String.class);
+                        return Response.status(401).entity(reason).build();
+                    }
+                    if(r.getStatus() == 202){
+                        Map<String, Object> resmap = r.readEntity(Map.class);
+                        String transactionUrl = (String) resmap.get("transactionUrl");
+                        CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+                        res.setTransactionUrl(transactionUrl);
+                        return Response.status(202).entity(res).build();
+                    }
+                    if(r.getStatus() == 200){
+                        //success
+                        quotation.setStatus('W');
+                        dao.update(quotation);
+                    }
+                }else if(qr.getPaymentMethood() == 'F'){
+                    quotation.setStatus('W');
+                    dao.update(quotation);
+                }
             }
+            async.notifyCustomerOfQuotationCreation(quotation);
+            CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
             return Response.status(200).entity(res).build();
         }catch(Exception ex){
-            ex.printStackTrace();
             return getServerErrorResponse();
         }
+    }
+
+    private CreateQuotationResponse prepareCreateQuotationResponse(Quotation quotation, CreateQuotationRequest qr){
+        CreateQuotationResponse res = new CreateQuotationResponse();
+        res.setQuotationId(quotation.getId());
+        res.setItems(new ArrayList<>());
+        for(CreateQuotationItemRequest req : qr.getQuotationItems()){
+            Map<String,Object> map = new HashMap<>();
+            map.put("tempId", req.getTempId());
+            map.put("imageName" , req.getItemName());
+            res.getItems().add(map);
+            res.setVehicleImageName(qr.getCustomerVehicleId() + ".png");
+            res.setUploadImage(qr.getCustomerVehicleNewlyCreated() && qr.getImageAttached());
+        }
+        return res;
     }
 
     private List<PublicQuotation> getPublicQuotations(List<Quotation> quotations){
@@ -177,7 +248,6 @@ public class QuotationApiV2 {
     public Response getQuotation(@HeaderParam("Authorization") String header, @PathParam(value = "quotationId") long quotationId){
         try{
             long customerId = getCustomerIdFromHeader(header);
-            System.out.println(customerId);
             Quotation quotation = dao.findTwoConditions(Quotation.class, "id", "customerId",  quotationId, customerId);
             if(quotation == null){
                 return Response.status(404).build();
@@ -240,7 +310,7 @@ public class QuotationApiV2 {
     private boolean isQuotationRedudant(long customerId, Date created) {
         // if a cart was created less than n seconds ago, then do not do
         String jpql = "select b from Quotation b where b.customerId = :value0 and b.created between :value1 and :value2";
-        Date previous = Helper.addSeconds(created, -15);
+        Date previous = Helper.addSeconds(created, -10);
         List<Quotation> carts = dao.getJPQLParams(Quotation.class, jpql, customerId, previous, created);
         return carts.size() > 0;
     }
@@ -342,7 +412,22 @@ public class QuotationApiV2 {
         quotation.setMobile(qr.getMobile());
         quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
         quotation.setMakeId(qr.getMakeId());
-        quotation.setStatus('N');
+        if(wa.getAppCode() == 3){
+            if(qr.getPaymentMethood() != null){
+                if(qr.getPaymentMethood() == 'W'){
+                    quotation.setStatus('T');
+                }
+                else if (qr.getPaymentMethood() == 'V' || qr.getPaymentMethood() == 'M'){
+                    quotation.setStatus('I');
+                }
+                if(qr.getPaymentMethood() == 'F'){
+                    quotation.setStatus('N');
+                }
+            }
+        }
+        else {
+            quotation.setStatus('N');
+        }
         quotation.setVinImageAttached(false);
         dao.persist(quotation);
         return quotation;

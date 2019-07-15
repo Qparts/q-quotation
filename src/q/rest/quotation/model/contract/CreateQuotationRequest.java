@@ -17,6 +17,9 @@ public class CreateQuotationRequest {
     private Boolean imageAttached;
     private List<CreateQuotationItemRequest> quotationItems;
     private Integer appCode;
+    private Character paymentMethood;
+    private CardHolder cardHolder;
+
     @JsonIgnore
     private Boolean customerVehicleNewlyCreated;
 
@@ -108,5 +111,21 @@ public class CreateQuotationRequest {
 
     public void setAppCode(Integer appCode) {
         this.appCode = appCode;
+    }
+
+    public Character getPaymentMethood() {
+        return paymentMethood;
+    }
+
+    public void setPaymentMethood(Character paymentMethood) {
+        this.paymentMethood = paymentMethood;
+    }
+
+    public CardHolder getCardHolder() {
+        return cardHolder;
+    }
+
+    public void setCardHolder(CardHolder cardHolder) {
+        this.cardHolder = cardHolder;
     }
 }
