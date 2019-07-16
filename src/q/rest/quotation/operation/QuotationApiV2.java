@@ -137,7 +137,7 @@ public class QuotationApiV2 {
             else{
                 //this is q.parts
                 quotation.setStatus('W');
-                dao.update('W');
+                dao.update(quotation);
             }
             async.notifyCustomerOfQuotationCreation(quotation);
             CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
