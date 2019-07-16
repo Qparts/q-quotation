@@ -17,6 +17,7 @@ public class AppConstants {
     public static final String POST_QUOTING_SCORE = USER_SERVICE + "quoting-score";
     public static final String POST_CUSTOMER_VEHICLE_IF_AVAILABLE = PUBLIC_CUSTOMER_SERVICE + "vehicle-if-available";
     public static final String POST_QUOTATION_COMPLETTION_EMAIL = CUSTOMER_SERVICE + "quotation-ready";
+    public static final String POST_QUOTATION_SUBMITTED_EMAIL = PUBLIC_CUSTOMER_SERVICE + "email/quotation-submitted";
     public static final String POST_QUOTATION_PAYMENT_CC = PUBLIC_CART_SERVICE + "quotation/credit-card";
     public static final String POST_QUOTATION_PAYMENT_WIRE = PUBLIC_CART_SERVICE + "quotation/wire-transfer";
 

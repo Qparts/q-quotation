@@ -61,10 +61,7 @@ public class QuotationApiV2 {
                 quotation.setStatus('W');
             }
             dao.update(quotation);
-            async.sendQuotationCreationEmail(quotation.getId());
-            async.sendQuotationCreateionSms(quotation.getId());
-            async.broadcastToQuotations("new quotation," + quotation.getId());
-            async.broadcastToNotification("pendingQuotations," + async.getPendingQuotations());
+            async.notifyCustomerOfQuotationCreation(header, quotation);
             return Response.status(201).build();
         }catch (Exception ex){
             return Response.status(500).build();
@@ -139,7 +136,7 @@ public class QuotationApiV2 {
                 quotation.setStatus('W');
                 dao.update(quotation);
             }
-            async.notifyCustomerOfQuotationCreation(quotation);
+            async.notifyCustomerOfQuotationCreation(header, quotation);
             CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
             return Response.status(200).entity(res).build();
         }catch(Exception ex){

@@ -29,8 +29,8 @@ public class AsyncService {
     private DAO dao;
 
     @Asynchronous
-    public void notifyCustomerOfQuotationCreation(Quotation quotation) {
-        sendQuotationCreationEmail(quotation.getId());
+    public void notifyCustomerOfQuotationCreation(String header, Quotation quotation) {
+        sendQuotationCreationEmail(header, quotation.getId(), quotation.getCustomerId());
         sendQuotationCreateionSms(quotation.getId());
         broadcastToQuotations("new quotation,"+quotation.getId());
         broadcastToNotification("pendingQuotations,"+getPendingQuotations());
@@ -72,8 +72,11 @@ public class AsyncService {
     }
 
     @Asynchronous
-    public void sendQuotationCreationEmail(long quotationId) {
-        //   QuotationsEndpoint.broadcast(message);
+    public void sendQuotationCreationEmail(String header, long quotationId, long customerId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("quotationId", quotationId);
+        map.put("customerId", customerId);
+        Response r = postSecuredRequest(AppConstants.POST_QUOTATION_SUBMITTED_EMAIL, map, header);
     }
 
     @Asynchronous
