@@ -68,19 +68,90 @@ public class QuotationApiV2 {
         }
     }
 
+
     @Secured
     @POST
     @Path("quotation")
-    public Response createQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
+    public Response createQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr) {
         try {
             if (isQuotationRedudant(qr.getCustomerId(), new Date())) {
                 return Response.status(429).build();
             }
             WebApp wa;
-            if(qr.getAppCode() == null){
+            if (qr.getAppCode() == null) {
                 wa = this.getWebAppFromAuthHeader(header);
             }
+            else{
+                wa = dao.find(WebApp.class, qr.getAppCode());
+            }
+            Quotation quotation = createQuotation(qr, wa, header);
+            createQuotationItems(quotation, qr.getQuotationItems());
+            async.createBill(quotation);
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("customerId", qr.getCustomerId());
+            map.put("quotationId", quotation.getId());
+            map.put("paymentMethod", qr.getPaymentMethood());
+            map.put("amount", 15);
+            //wire transfer
+            if(qr.getPaymentMethood() == 'W'){
+                Response r = postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_WIRE, map, header);
+                if(r.getStatus() != 201){
+                    CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+                    return Response.status(200).entity(res).build();
+                }
+                else{
+                    throw new Exception();
+                }
+            }
+            //mada
+            else if(qr.getPaymentMethood() == 'M' || qr.getPaymentMethood() == 'V'){
+                map.put("cardHolder", qr.getCardHolder());
+                Response r = postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_CC, map, header);
+                if(r.getStatus() == 400){
+                    //bad credit card request
+                    return Response.status(400).entity("bad request from gateway").build();
+                }
+                if(r.getStatus() == 401){
+                    String reason = r.readEntity(String.class);
+                    return Response.status(401).entity(reason).build();
+                }
+                if(r.getStatus() == 202){
+                    Map<String, Object> resmap = r.readEntity(Map.class);
+                    String transactionUrl = (String) resmap.get("transactionUrl");
+                    CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+                    res.setTransactionUrl(transactionUrl);
+                    return Response.status(202).entity(res).build();
+                }
+                if(r.getStatus() == 200){
+                    //success
+                    quotation.setStatus('W');
+                    dao.update(quotation);
+                }
+            }else if(qr.getPaymentMethood() == 'F'){
+                quotation.setStatus('W');
+                dao.update(quotation);
+            }
+            async.notifyCustomerOfQuotationCreation(header, quotation);
+            CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+            return Response.status(200).entity(res).build();
+        }catch(Exception ex){
+            return getServerErrorResponse();
+        }
+    }
 
+    /*
+    @Secured
+    @POST
+    @Path("quotation")
+     public Response createQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr) {
+        try {
+            if (isQuotationRedudant(qr.getCustomerId(), new Date())) {
+                return Response.status(429).build();
+            }
+            WebApp wa;
+            if (qr.getAppCode() == null) {
+                wa = this.getWebAppFromAuthHeader(header);
+            }
             else{
                 wa = dao.find(WebApp.class, qr.getAppCode());
             }
@@ -143,6 +214,8 @@ public class QuotationApiV2 {
             return getServerErrorResponse();
         }
     }
+
+    */
 
     private CreateQuotationResponse prepareCreateQuotationResponse(Quotation quotation, CreateQuotationRequest qr){
         CreateQuotationResponse res = new CreateQuotationResponse();
