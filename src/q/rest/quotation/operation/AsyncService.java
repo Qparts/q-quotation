@@ -27,6 +27,8 @@ public class AsyncService {
 
     @EJB
     private DAO dao;
+    @EJB
+    private QuotationCommonApiV2 common;
 
     @Asynchronous
     public void notifyCustomerOfQuotationCreation(String header, Quotation quotation) {
@@ -68,7 +70,7 @@ public class AsyncService {
         map.put("createdBy", qir.getCreatedBy());
         map.put("score", score);
         map.put("desc", desc);
-        postSecuredRequest(AppConstants.POST_QUOTING_SCORE, map, authHeader);
+        common.postSecuredRequest(AppConstants.POST_QUOTING_SCORE, map, authHeader);
     }
 
     @Asynchronous
@@ -76,7 +78,7 @@ public class AsyncService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("quotationId", quotationId);
         map.put("customerId", customerId);
-        Response r = postSecuredRequest(AppConstants.POST_QUOTATION_SUBMITTED_EMAIL, map, header);
+        Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_SUBMITTED_EMAIL, map, header);
     }
 
     @Asynchronous
@@ -84,7 +86,7 @@ public class AsyncService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("quotationId", quotation.getId());
         map.put("customerId", quotation.getCustomerId());
-        Response r = postSecuredRequest(AppConstants.POST_QUOTATION_COMPLETTION_EMAIL, map, authHeader);
+        Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_COMPLETTION_EMAIL, map, authHeader);
     }
 
     @Asynchronous
@@ -129,14 +131,6 @@ public class AsyncService {
         if(number == null)
             number = 0;
         return number.intValue();
-    }
-
-    public <T> Response postSecuredRequest(String link, T t, String authHeader) {
-        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
-        b.header(HttpHeaders.AUTHORIZATION, authHeader);
-        Response r = b.post(Entity.entity(t, "application/json"));// not secured
-        return r;
-
     }
 
 

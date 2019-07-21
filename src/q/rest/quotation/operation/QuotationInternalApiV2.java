@@ -5,16 +5,12 @@ import q.rest.quotation.filter.SecuredUser;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
 import q.rest.quotation.model.contract.CreateNewQuotationItem;
+import q.rest.quotation.model.contract.CreateQuotationRequest;
 import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
-import javax.mail.Quota;
 import javax.ws.rs.*;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
@@ -29,6 +25,9 @@ public class QuotationInternalApiV2 {
 
     @EJB
     private AsyncService async;
+
+    @EJB
+    private QuotationCommonApiV2 common;
 
 
 
@@ -222,6 +221,45 @@ public class QuotationInternalApiV2 {
             return Response.status(500).build();
         }
     }
+
+
+    @SecuredUser
+    @POST
+    @Path("quotation/free")
+    public Response createFreeQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr) {
+        try {
+            if (common.isQuotationRedudant(qr.getCustomerId(), new Date())) {
+                return Response.status(429).build();
+            }
+            WebApp wa = dao.find(WebApp.class, qr.getAppCode());
+
+            Quotation quotation = createFreeQuotation(qr, wa);
+            common.createQuotationItems(quotation, qr.getQuotationItems());
+            async.createBill(quotation);
+            async.notifyCustomerOfQuotationCreation(header, quotation);
+            return Response.status(201).build();
+        }catch(Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+    private Quotation createFreeQuotation(CreateQuotationRequest qr, WebApp wa){
+        Quotation quotation = new Quotation();
+        quotation.setAppCode(wa.getAppCode());
+        quotation.setCityId(qr.getCityId());
+        quotation.setCreated(new Date());
+        quotation.setCreatedBy(qr.getCreatedBy());
+        quotation.setMobile(qr.getMobile());
+        quotation.setCustomerId(qr.getCustomerId());
+        quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
+        quotation.setMobile(qr.getMobile());
+        quotation.setMakeId(qr.getMakeId());
+        quotation.setStatus('W');
+        quotation.setVinImageAttached(false);
+        dao.persist(quotation);
+        return quotation;
+    }
+
 
 
 
@@ -664,7 +702,7 @@ public class QuotationInternalApiV2 {
 
 
     private Map<String, Object> getCustomer(long customerId, String authHeader) {
-        Response r = this.getSecuredRequest(AppConstants.getCustomer(customerId), authHeader);
+        Response r = common.getSecuredRequest(AppConstants.getCustomer(customerId), authHeader);
         if (r.getStatus() == 200) {
             return r.readEntity(Map.class);
         } else {
@@ -707,7 +745,7 @@ public class QuotationInternalApiV2 {
     }
 
     private List<Integer> getQuotingMakeIds(int finderId, String authHeader) {
-        Response r = this.getSecuredRequest(AppConstants.getQuotingMakeIds(finderId), authHeader);
+        Response r = common.getSecuredRequest(AppConstants.getQuotingMakeIds(finderId), authHeader);
         if (r.getStatus() == 200) {
             List<Integer> finders = r.readEntity(new GenericType<List<Integer>>() {
             });
@@ -776,27 +814,6 @@ public class QuotationInternalApiV2 {
         }
     }
 
-
-    public Response getSecuredRequest(String link, String authHeader) {
-        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
-        b.header(HttpHeaders.AUTHORIZATION, authHeader);
-        Response r = b.get();
-        return r;
-    }
-
-    public <T> Response postSecuredRequest(String link, T t, String authHeader) {
-        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
-        b.header(HttpHeaders.AUTHORIZATION, authHeader);
-        Response r = b.post(Entity.entity(t, "application/json"));// not secured
-        return r;
-    }
-
-    public Response deleteSecuredRequest(String link, String authHeader) {
-        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
-        b.header(HttpHeaders.AUTHORIZATION, authHeader);
-        Response r = b.delete();
-        return r;
-    }
 
 
 }

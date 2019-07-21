@@ -10,10 +10,6 @@ import q.rest.quotation.model.entity.*;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
@@ -28,6 +24,9 @@ public class QuotationApiV2 {
 
     @EJB
     private AsyncService async;
+
+    @EJB
+    private QuotationCommonApiV2 common;
 
     @SecuredCustomer
     @PUT
@@ -71,6 +70,85 @@ public class QuotationApiV2 {
 
     @Secured
     @POST
+    @Path("quotation/wire-transfer")
+    public Response createWireTransferQuotation(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
+        try{
+            if (common.isQuotationRedudant(qr.getCustomerId(), new Date())) {
+                return Response.status(429).build();
+            }
+            WebApp wa;
+            if (qr.getAppCode() == null) {
+                wa = this.getWebAppFromAuthHeader(header);
+            }
+            else{
+                wa = dao.find(WebApp.class, qr.getAppCode());
+            }
+            Quotation quotation = common.createQuotation(qr, wa, header);
+            common.createQuotationItems(quotation, qr.getQuotationItems());
+            async.createBill(quotation);
+            Map<String,Object> map = common.createQuotationPaymentObject(quotation, qr);
+            Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_WIRE, map, header);
+            if(r.getStatus() != 201){
+                throw new Exception();
+            }
+
+            CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+            return Response.status(200).entity(res).build();
+
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+
+
+    @SecuredCustomer
+    @POST
+    @Path("quotation/credit-card")
+    public Response createCreditCardQuotation(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
+        try{
+            if (common.isQuotationRedudant(qr.getCustomerId(), new Date())) {
+                return Response.status(429).build();
+            }
+            WebApp wa = this.getWebAppFromAuthHeader(header);
+            Quotation quotation = common.createQuotation(qr, wa, header);
+            common.createQuotationItems(quotation, qr.getQuotationItems());
+            async.createBill(quotation);
+            Map<String,Object> map = common.createQuotationPaymentObject(quotation, qr);
+            //credit card
+            Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_CC, map, header);
+            //possible outcomes
+            if(r.getStatus() == 400){
+                //bad credit card request
+                return Response.status(400).entity("bad request from gateway").build();
+            }
+            if(r.getStatus() == 401){
+                String reason = r.readEntity(String.class);
+                return Response.status(401).entity(reason).build();
+            }
+            if(r.getStatus() == 202){
+                Map<String, Object> resmap = r.readEntity(Map.class);
+                String transactionUrl = (String) resmap.get("transactionUrl");
+                CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+                res.setTransactionUrl(transactionUrl);
+                return Response.status(202).entity(res).build();
+            }
+            if(r.getStatus() == 200){
+                //success
+                quotation.setStatus('W');
+                dao.update(quotation);
+                async.notifyCustomerOfQuotationCreation(header, quotation);
+                CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+                return Response.status(200).entity(res).build();
+            }
+            throw new Exception();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+/*
+    @Secured
+    @POST
     @Path("quotation")
     public Response createQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr) {
         try {
@@ -84,8 +162,8 @@ public class QuotationApiV2 {
             else{
                 wa = dao.find(WebApp.class, qr.getAppCode());
             }
-            Quotation quotation = createQuotation(qr, wa, header);
-            createQuotationItems(quotation, qr.getQuotationItems());
+            Quotation quotation = common.createQuotation(qr, wa, header);
+            common.createQuotationItems(quotation, qr.getQuotationItems());
             async.createBill(quotation);
             Map<String,Object> map = new HashMap<String,Object>();
             map.put("customerId", qr.getCustomerId());
@@ -94,8 +172,8 @@ public class QuotationApiV2 {
             map.put("amount", 15);
             //wire transfer
             if(qr.getPaymentMethood() == 'W'){
-                Response r = postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_WIRE, map, header);
-                if(r.getStatus() != 201){
+                Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_WIRE, map, header);
+                if(r.getStatus() == 201){
                     CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
                     return Response.status(200).entity(res).build();
                 }
@@ -106,7 +184,7 @@ public class QuotationApiV2 {
             //mada
             else if(qr.getPaymentMethood() == 'M' || qr.getPaymentMethood() == 'V'){
                 map.put("cardHolder", qr.getCardHolder());
-                Response r = postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_CC, map, header);
+                Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_CC, map, header);
                 if(r.getStatus() == 400){
                     //bad credit card request
                     return Response.status(400).entity("bad request from gateway").build();
@@ -226,9 +304,9 @@ public class QuotationApiV2 {
             map.put("tempId", req.getTempId());
             map.put("imageName" , req.getItemName());
             res.getItems().add(map);
-            res.setVehicleImageName(qr.getCustomerVehicleId() + ".png");
-            res.setUploadImage(qr.getCustomerVehicleNewlyCreated() && qr.getImageAttached());
         }
+        res.setVehicleImageName(qr.getCustomerVehicleId() + ".png");
+        res.setUploadImage(qr.getCustomerVehicleNewlyCreated() && qr.getImageAttached());
         return res;
     }
 
@@ -304,7 +382,7 @@ public class QuotationApiV2 {
             List<BillItemResponse> billItemResponses = dao.getJPQLParams(BillItemResponse.class, sql, billItem.getId(), 'C');
 
             for(BillItemResponse bir : billItemResponses){
-                Response r = this.getSecuredRequest(AppConstants.getPublicProduct(bir.getProductId()), header);
+                Response r = common.getSecuredRequest(AppConstants.getPublicProduct(bir.getProductId()), header);
                 if(r.getStatus() == 200){
                     Map map = r.readEntity(Map.class);
                     pqi.setProducts(map);
@@ -378,19 +456,6 @@ public class QuotationApiV2 {
     }
 
 
-
-
-
-    // check idempotency of a cart
-    private boolean isQuotationRedudant(long customerId, Date created) {
-        // if a cart was created less than n seconds ago, then do not do
-        String jpql = "select b from Quotation b where b.customerId = :value0 and b.created between :value1 and :value2";
-        Date previous = Helper.addSeconds(created, -10);
-        List<Quotation> carts = dao.getJPQLParams(Quotation.class, jpql, customerId, previous, created);
-        return carts.size() > 0;
-    }
-
-
     private long getCustomerIdFromHeader(String header){
         try{
             String[] values = header.split("&&");
@@ -430,97 +495,5 @@ public class QuotationApiV2 {
         return Response.status(500).entity("Server Error").build();
     }
 
-
-    public Response getSecuredRequest(String link, String authHeader) {
-        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
-        b.header(HttpHeaders.AUTHORIZATION, authHeader);
-        Response r = b.get();
-        return r;
-    }
-
-
-    public <T> Response postSecuredRequest(String link, T t, String authHeader) {
-        Invocation.Builder b = ClientBuilder.newClient().target(link).request();
-        b.header(HttpHeaders.AUTHORIZATION, authHeader);
-        Response r = b.post(Entity.entity(t, "application/json"));
-        return r;
-    }
-
-
-        private Quotation createQuotation(CreateQuotationRequest qr, WebApp wa, String header){
-        Quotation quotation = new Quotation();
-        quotation.setAppCode(wa.getAppCode());
-        quotation.setCityId(qr.getCityId());
-        quotation.setCreated(new Date());
-        quotation.setCreatedBy(0);
-        quotation.setMobile(qr.getMobile());
-        quotation.setCustomerId(qr.getCustomerId());
-        qr.setCustomerVehicleNewlyCreated(false);
-        if(qr.getCustomerVehicleId() == null){
-            Map<String,Object> map = new HashMap<>();
-            if(qr.getVin() == null){
-                qr.setVin("");
-            }
-            map.put("vehicleYearId", qr.getVehicleYearId());
-            map.put("vin", qr.getVin());
-            map.put("imageAttached", qr.getImageAttached());
-            map.put("customerId", qr.getCustomerId());
-            System.out.println("=======================");
-            System.out.println("vehicle year id = " +qr.getVehicleYearId());
-            System.out.println("vin = " +qr.getVin());
-            System.out.println("image attached = " +qr.getImageAttached());
-            System.out.println("customer Id = " +qr.getCustomerId());
-            Response r = postSecuredRequest(AppConstants.POST_CUSTOMER_VEHICLE_IF_AVAILABLE, map , header);
-            System.out.println(r.getStatus());
-            System.out.println("=======================");
-            if(r.getStatus() == 200){
-                Long customerVehicleId = r.readEntity(Long.class);
-                qr.setCustomerVehicleId(customerVehicleId);
-                qr.setCustomerVehicleNewlyCreated(true);
-            }
-            else if(r.getStatus() == 409){
-                Long customerVehicleId = r.readEntity(Long.class);
-                qr.setCustomerVehicleId(customerVehicleId);
-                qr.setCustomerVehicleNewlyCreated(false);
-            }
-        }
-        quotation.setMobile(qr.getMobile());
-        quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
-        quotation.setMakeId(qr.getMakeId());
-        if(wa.getAppCode() == 3){
-            if(qr.getPaymentMethood() != null){
-                if(qr.getPaymentMethood() == 'W'){
-                    quotation.setStatus('T');
-                }
-                else if (qr.getPaymentMethood() == 'V' || qr.getPaymentMethood() == 'M'){
-                    quotation.setStatus('I');
-                }
-                if(qr.getPaymentMethood() == 'F'){
-                    quotation.setStatus('N');
-                }
-            }
-        }
-        else {
-            quotation.setStatus('N');
-        }
-        quotation.setVinImageAttached(false);
-        dao.persist(quotation);
-        return quotation;
-    }
-
-
-    private void createQuotationItems(Quotation quotation, List<CreateQuotationItemRequest> qir) {
-        quotation.setQuotationItems(new ArrayList<>());
-        for (CreateQuotationItemRequest qritem : qir) {
-            QuotationItem quotationItem = new QuotationItem();
-            quotationItem.setQuotationId(quotation.getId());
-            quotationItem.setName(qritem.getItemName());
-            quotationItem.setQuantity(qritem.getQuantity());
-            quotationItem.setImageAttached(qritem.isHasImage());
-            dao.persist(quotationItem);
-            quotation.getQuotationItems().add(quotationItem);
-            qritem.setItemName(quotationItem.getId() + ".png");
-        }
-    }
 
 }

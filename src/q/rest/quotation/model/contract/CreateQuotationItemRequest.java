@@ -1,6 +1,5 @@
 package q.rest.quotation.model.contract;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CreateQuotationItemRequest {
 
