@@ -10,6 +10,7 @@ import q.rest.quotation.model.entity.QuotationItem;
 import q.rest.quotation.model.entity.WebApp;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
+@Stateless
 public class QuotationCommonApiV2 {
 
 
