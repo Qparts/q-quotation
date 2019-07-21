@@ -67,14 +67,14 @@ public class QuotationCommonApiV2 {
         quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
         quotation.setMakeId(qr.getMakeId());
         if(wa.getAppCode() == 3){
-            if(qr.getPaymentMethood() != null){
-                if(qr.getPaymentMethood() == 'W'){
+            if(qr.getPaymentMethod() != null){
+                if(qr.getPaymentMethod() == 'W'){
                     quotation.setStatus('T');
                 }
-                else if (qr.getPaymentMethood() == 'V' || qr.getPaymentMethood() == 'M'){
+                else if (qr.getPaymentMethod() == 'V' || qr.getPaymentMethod() == 'M'){
                     quotation.setStatus('I');
                 }
-                if(qr.getPaymentMethood() == 'F'){
+                if(qr.getPaymentMethod() == 'F'){
                     quotation.setStatus('N');
                 }
             }
@@ -91,7 +91,7 @@ public class QuotationCommonApiV2 {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("customerId", qr.getCustomerId());
         map.put("quotationId", quotation.getId());
-        map.put("paymentMethod", qr.getPaymentMethood());
+        map.put("paymentMethod", qr.getPaymentMethod());
         map.put("amount", 15);
         map.put("cardHolder", qr.getCardHolder());
         return map;

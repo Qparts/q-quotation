@@ -17,7 +17,7 @@ public class CreateQuotationRequest {
     private Boolean imageAttached;
     private List<CreateQuotationItemRequest> quotationItems;
     private Integer appCode;
-    private Character paymentMethood;
+    private Character paymentMethod;
     private CardHolder cardHolder;
     private Integer createdBy;
 
@@ -114,12 +114,12 @@ public class CreateQuotationRequest {
         this.appCode = appCode;
     }
 
-    public Character getPaymentMethood() {
-        return paymentMethood;
+    public Character getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPaymentMethood(Character paymentMethood) {
-        this.paymentMethood = paymentMethood;
+    public void setPaymentMethod(Character paymentMethood) {
+        this.paymentMethod = paymentMethood;
     }
 
     public CardHolder getCardHolder() {
