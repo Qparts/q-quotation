@@ -89,6 +89,7 @@ public class QuotationApiV2 {
             Map<String,Object> map = common.createQuotationPaymentObject(quotation, qr);
             Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_WIRE, map, header);
             if(r.getStatus() != 201){
+                System.out.println("status in calling quotation payment wire at cart "+r.getStatus());
                 throw new Exception();
             }
 
