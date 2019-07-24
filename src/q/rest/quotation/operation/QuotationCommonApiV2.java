@@ -127,7 +127,7 @@ public class QuotationCommonApiV2 {
     public <T> Response postSecuredRequest(String link, T t, String authHeader) {
         Invocation.Builder b = ClientBuilder.newClient().target(link).request();
         b.header(HttpHeaders.AUTHORIZATION, authHeader);
-        Response r = b.post(Entity.entity(t, "application/json"));// not secured
+        Response r = b.post(Entity.entity(t, "application/json"));
         return r;
     }
 

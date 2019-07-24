@@ -60,7 +60,10 @@ public class QuotationApiV2 {
                 quotation.setStatus('W');
             }
             dao.update(quotation);
-            async.notifyCustomerOfQuotationCreation(header, quotation);
+            if(quotation.getStatus() == 'W') {
+                async.notifyCustomerOfQuotationCreation(header, quotation);
+            }
+
             return Response.status(201).build();
         }catch (Exception ex){
             return Response.status(500).build();
