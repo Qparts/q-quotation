@@ -329,16 +329,16 @@ public class QuotationApiV2 {
     @Path("close-quotation")
     public Response closeQuotation(Map<String,Object> map){
         try{
-            long quotaitonId = ((Number) map.get("quotationId")).longValue();
+            long quotationId = ((Number) map.get("quotationId")).longValue();
 
-            Quotation q = dao.find(Quotation.class, quotaitonId);
+            Quotation q = dao.find(Quotation.class, quotationId);
             q.setStatus('C');
             dao.update(q);
             Comment comment = new Comment();
             comment.setCreated(new Date());
             comment.setText("Closed by customer");
             comment.setCreatedBy(0);
-            comment.setQuotationId(quotaitonId);
+            comment.setQuotationId(quotationId);
             comment.setStatus('Y');
             comment.setVisibleToCustomer(false);
             dao.persist(comment);

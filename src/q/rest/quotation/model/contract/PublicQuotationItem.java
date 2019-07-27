@@ -1,6 +1,5 @@
 package q.rest.quotation.model.contract;
 
-import java.util.List;
 import java.util.Map;
 
 public class PublicQuotationItem {
