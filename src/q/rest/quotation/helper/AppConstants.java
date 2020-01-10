@@ -7,10 +7,12 @@ public class AppConstants {
     private static final String PUBLIC_CUSTOMER_SERVICE = SysProps.getValue("customerPublicService");
     private static final String PUBLIC_PRODUCT_SERVICE= SysProps.getValue("productPublicService");
     private static final String PUBLIC_CART_SERVICE = SysProps.getValue("cartPublicService");
+    private static final String VENDOR_SERVICE = SysProps.getValue("vendorService");
 
     public static final String CUSTOMER_MATCH_TOKEN = CUSTOMER_SERVICE + "match-token";
     public static final String CUSTOMER_MATCH_TOKEN_WS = CUSTOMER_SERVICE + "match-token/ws";
     public static final String USER_MATCH_TOKEN = USER_SERVICE + "match-token";
+    public static final String VENDOR_MATCH_TOKEN = VENDOR_SERVICE + "match-token";
     public static final String USER_MATCH_TOKEN_WS = USER_SERVICE + "match-token/ws";
 
 

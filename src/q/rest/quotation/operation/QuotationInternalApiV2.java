@@ -2,6 +2,7 @@ package q.rest.quotation.operation;
 
 import q.rest.quotation.dao.DAO;
 import q.rest.quotation.filter.SecuredUser;
+import q.rest.quotation.filter.SecuredVendor;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
 import q.rest.quotation.model.contract.CreateNewQuotationItem;
@@ -29,6 +30,62 @@ public class QuotationInternalApiV2 {
     @EJB
     private QuotationCommonApiV2 common;
 
+
+    @SecuredVendor
+    @POST
+    @Path("vendor-quotation")
+    public Response createVendorQuotation(@HeaderParam("Authorization") String header, VendorQuotation vendorQuotation){
+        try{
+            vendorQuotation.setCreated(new Date());
+            vendorQuotation.setStatus('N');
+            dao.persist(vendorQuotation);
+            for(var item : vendorQuotation.getVendorQuotationItems()){
+                item.setCreated(new Date());
+                item.setVendorId(vendorQuotation.getVendorId());
+                item.setStatus('N');
+                item.setQuotationId(vendorQuotation.getId());
+                dao.persist(item);
+            }
+            return Response.status(201).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+
+    @SecuredVendor
+    @GET
+    @Path("vendor-quotations/vendor/{vendorId}")
+    public Response getVendorQuotations(@PathParam(value = "vendorId") int vendorId){
+        try{
+            String sql = "select b from VendorQuotation b where b.vendorId = :value0 order by b.created desc";
+            List<VendorQuotation> vqs = dao.getJPQLParams(VendorQuotation.class, sql, vendorId);
+            for(var vq : vqs){
+                List<VendorQuotationItem> vqis = dao.getCondition(VendorQuotationItem.class, "quotationId", vq.getId());
+                vq.setVendorQuotationItems(vqis);
+            }
+            return Response.status(200).entity(vqs).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+    @SecuredVendor
+    @GET
+    @Path("vendor-quotations/target/{targetId}")
+    public Response getTargetVendorQuotations(@PathParam(value = "targetId") int targetId){
+        try{
+            String sql = "select b from VendorQuotation b where b.targetVendorId = :value0 order by b.created desc";
+            List<VendorQuotation> vqs = dao.getJPQLParams(VendorQuotation.class, sql, targetId);
+            for(var vq : vqs){
+                List<VendorQuotationItem> vqis = dao.getCondition(VendorQuotationItem.class, "quotationId", vq.getId());
+                vq.setVendorQuotationItems(vqis);
+            }
+            return Response.status(200).entity(vqs).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
 
 
 
