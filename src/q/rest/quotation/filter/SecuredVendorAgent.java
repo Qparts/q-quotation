@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@SecuredCustomer
+@SecuredVendor
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class SecuredVendorAgent implements ContainerRequestFilter {

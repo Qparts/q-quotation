@@ -106,13 +106,13 @@ public class QuotationApiV2 {
         }
     }
 
-
-
     @SecuredCustomer
     @POST
     @Path("quotation/credit-card")
     public Response createCreditCardQuotation(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
         try{
+            System.out.println("received");
+            System.out.println(11);
             if (common.isQuotationRedudant(qr.getCustomerId(), new Date())) {
                 return Response.status(429).build();
             }
