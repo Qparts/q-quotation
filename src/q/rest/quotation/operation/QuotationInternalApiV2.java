@@ -34,6 +34,52 @@ public class QuotationInternalApiV2 {
     @SecuredVendor
     @POST
     @Path("vendor-quotation")
+    public Response createVendorQuotation2(@HeaderParam("Authorization") String header, VendorQuotation vendorQuotation){
+        try{
+            String sql = "select b from VendorQuotation b where b.vendorId =:value0 and b.targetVendorId = :value1 and cast(b.created as date) =:value2";
+            VendorQuotation vq = dao.findJPQLParams(VendorQuotation.class, sql, vendorQuotation.getVendorId(), vendorQuotation.getTargetVendorId(), new Date());
+            if(vq == null){
+                vendorQuotation.setCreated(new Date());
+                vendorQuotation.setStatus('N');
+                dao.persist(vendorQuotation);
+                for(var item : vendorQuotation.getVendorQuotationItems()){
+                    item.setCreated(new Date());
+                    item.setVendorId(vendorQuotation.getVendorId());
+                    item.setStatus('N');
+                    item.setQuotationId(vendorQuotation.getId());
+                    dao.persist(item);
+                }
+            }
+            else{
+                for(var item : vendorQuotation.getVendorQuotationItems()){
+                    String sql2 = "select b from VendorQuotationItem b where b.quotationId =:value0 and b.itemNumber = :value1 and b.brand =:value2";
+                    VendorQuotationItem vqi = dao.findJPQLParams(VendorQuotationItem.class, sql2, vq.getId(), item.getItemNumber(), item.getBrand());
+                    if(vqi == null){
+                        item.setCreated(new Date());
+                        item.setVendorId(vq.getVendorId());
+                        item.setStatus('N');
+                        item.setQuotationId(vq.getId());
+                        dao.persist(item);
+                    } else{
+                        vqi.setCreated(new Date());
+                        vqi.setRetailPrice(item.getRetailPrice());
+                        vqi.setWholesalesPrice(item.getWholesalesPrice());
+                        vqi.setPolicyName(item.getPolicyName());
+                        vqi.setFactor(item.getFactor());
+                        dao.update(vqi);
+                    }
+                }
+            }
+            return Response.status(201).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+
+    @SecuredVendor
+    @POST
+    @Path("vendor-quotation2")
     public Response createVendorQuotation(@HeaderParam("Authorization") String header, VendorQuotation vendorQuotation){
         try{
             vendorQuotation.setCreated(new Date());
@@ -55,11 +101,31 @@ public class QuotationInternalApiV2 {
 
     @SecuredVendor
     @GET
-    @Path("vendor-quotations/vendor/{vendorId}")
-    public Response getVendorQuotations(@PathParam(value = "vendorId") int vendorId){
+    @Path("vendor-quotations/not-today/vendor/{vendorId}")
+    public Response getVendorQuotationsNotToday(@PathParam(value = "vendorId") int vendorId){
         try{
-            String sql = "select b from VendorQuotation b where b.vendorId = :value0 order by b.created desc";
-            List<VendorQuotation> vqs = dao.getJPQLParams(VendorQuotation.class, sql, vendorId);
+            String sql = "select b from VendorQuotation b where b.vendorId = :value0 and cast(b.created as date) != :value1 order by b.created desc";
+            List<VendorQuotation> vqs = dao.getJPQLParams(VendorQuotation.class, sql, vendorId, new Date());
+            for(var vq : vqs){
+                List<VendorQuotationItem> vqis = dao.getCondition(VendorQuotationItem.class, "quotationId", vq.getId());
+                vq.setVendorQuotationItems(vqis);
+            }
+            return Response.status(200).entity(vqs).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
+
+
+    @SecuredVendor
+    @GET
+    @Path("vendor-quotations/today/vendor/{vendorId}")
+    public Response getVendorQuotationsToday(@PathParam(value = "vendorId") int vendorId){
+        try{
+            String sql = "select b from VendorQuotation b where b.vendorId = :value0 and cast(b.created as date) =:value1 order by b.created desc";
+            Helper h = new Helper();
+            List<VendorQuotation> vqs = dao.getJPQLParams(VendorQuotation.class, sql, vendorId, new Date());
             for(var vq : vqs){
                 List<VendorQuotationItem> vqis = dao.getCondition(VendorQuotationItem.class, "quotationId", vq.getId());
                 vq.setVendorQuotationItems(vqis);
