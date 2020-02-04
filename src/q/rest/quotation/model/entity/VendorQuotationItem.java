@@ -44,6 +44,28 @@ public class VendorQuotationItem implements Serializable {
     @Column(name="policy_name")
     private String policyName;
 
+    @Column(name="special_offer")
+    private boolean specialOffer;
+
+    @Column(name="special_offer_price")
+    private double specialOfferPrice;
+
+    public boolean isSpecialOffer() {
+        return specialOffer;
+    }
+
+    public void setSpecialOffer(boolean specialOffer) {
+        this.specialOffer = specialOffer;
+    }
+
+    public double getSpecialOfferPrice() {
+        return specialOfferPrice;
+    }
+
+    public void setSpecialOfferPrice(double specialOfferPrice) {
+        this.specialOfferPrice = specialOfferPrice;
+    }
+
     public long getId() {
         return id;
     }

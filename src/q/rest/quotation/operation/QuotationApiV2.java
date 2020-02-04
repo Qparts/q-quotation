@@ -3,8 +3,6 @@ package q.rest.quotation.operation;
 import q.rest.quotation.dao.DAO;
 import q.rest.quotation.filter.Secured;
 import q.rest.quotation.filter.SecuredCustomer;
-import q.rest.quotation.filter.SecuredUserVendor;
-import q.rest.quotation.filter.SecuredVendor;
 import q.rest.quotation.helper.AppConstants;
 import q.rest.quotation.helper.Helper;
 import q.rest.quotation.model.contract.*;

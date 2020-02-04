@@ -8,7 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredVendorAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredVendorAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/VendorQuotationItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/VendorQuotationItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -201,7 +202,9 @@
       <workItem from="1578574217600" duration="2561000" />
       <workItem from="1579720553816" duration="10000" />
       <workItem from="1580214960748" duration="1383000" />
-      <workItem from="1580481097590" duration="7136000" />
+      <workItem from="1580481097590" duration="7323000" />
+      <workItem from="1580805672032" duration="649000" />
+      <workItem from="1580808437696" duration="1406000" />
     </task>
     <servers />
   </component>

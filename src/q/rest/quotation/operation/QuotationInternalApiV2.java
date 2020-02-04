@@ -52,8 +52,11 @@ public class QuotationInternalApiV2 {
             }
             else{
                 for(var item : vendorQuotation.getVendorQuotationItems()){
-                    String sql2 = "select b from VendorQuotationItem b where b.quotationId =:value0 and b.itemNumber = :value1 and b.brand =:value2";
-                    VendorQuotationItem vqi = dao.findJPQLParams(VendorQuotationItem.class, sql2, vq.getId(), item.getItemNumber(), item.getBrand());
+                    String sql2 = "select b from VendorQuotationItem b where b.quotationId =:value0 " +
+                            "and b.itemNumber = :value1 " +
+                            "and b.brand =:value2 " +
+                            "and b.specialOffer =:value3";
+                    VendorQuotationItem vqi = dao.findJPQLParams(VendorQuotationItem.class, sql2, vq.getId(), item.getItemNumber(), item.getBrand(), item.isSpecialOffer());
                     if(vqi == null){
                         item.setCreated(new Date());
                         item.setVendorId(vq.getVendorId());
@@ -65,6 +68,8 @@ public class QuotationInternalApiV2 {
                         vqi.setRetailPrice(item.getRetailPrice());
                         vqi.setWholesalesPrice(item.getWholesalesPrice());
                         vqi.setPolicyName(item.getPolicyName());
+                        vqi.setSpecialOfferPrice(item.getSpecialOfferPrice());
+                        vqi.setSpecialOffer(item.isSpecialOffer());
                         vqi.setFactor(item.getFactor());
                         dao.update(vqi);
                     }
