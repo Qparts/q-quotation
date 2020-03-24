@@ -20,6 +20,7 @@ public class CreateQuotationRequest {
     private Character paymentMethod;
     private CardHolder cardHolder;
     private Integer createdBy;
+    private PaymentRequest paymentRequest;
 
     @JsonIgnore
     private Boolean customerVehicleNewlyCreated;
@@ -136,5 +137,13 @@ public class CreateQuotationRequest {
 
     public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public PaymentRequest getPaymentRequest() {
+        return paymentRequest;
+    }
+
+    public void setPaymentRequest(PaymentRequest paymentRequest) {
+        this.paymentRequest = paymentRequest;
     }
 }

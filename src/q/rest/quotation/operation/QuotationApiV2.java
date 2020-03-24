@@ -109,8 +109,6 @@ public class QuotationApiV2 {
     @Path("quotation/credit-card")
     public Response createCreditCardQuotation(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
         try{
-            System.out.println("received");
-            System.out.println(11);
             if (common.isQuotationRedudant(qr.getCustomerId(), new Date())) {
                 return Response.status(429).build();
             }
@@ -118,21 +116,24 @@ public class QuotationApiV2 {
             Quotation quotation = common.createQuotation(qr, wa, header);
             common.createQuotationItems(quotation, qr.getQuotationItems());
             async.createBill(quotation);
-            Map<String,Object> map = common.createQuotationPaymentObject(quotation, qr);
             //credit card
-            Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT_CC, map, header);
+            qr.getPaymentRequest().setQuotationId(quotation.getId());
+            qr.getPaymentRequest().setDescription("QETAA-Quotation: " + quotation.getId());
+            Response r = common.postSecuredRequest(AppConstants.POST_QUOTATION_PAYMENT, qr.getPaymentRequest() , header);
             //possible outcomes
             if(r.getStatus() == 400){
                 //bad credit card request
                 return Response.status(400).entity("bad request from gateway").build();
             }
             if(r.getStatus() == 401){
-                String reason = r.readEntity(String.class);
+                //declined
+                Map<String,String> mp = r.readEntity(Map.class);
+                String reason = mp.get("message");
                 return Response.status(401).entity(reason).build();
             }
             if(r.getStatus() == 202){
                 Map<String, Object> resmap = r.readEntity(Map.class);
-                String transactionUrl = (String) resmap.get("transactionUrl");
+                String transactionUrl = (String) resmap.get("url");
                 CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
                 res.setTransactionUrl(transactionUrl);
                 return Response.status(202).entity(res).build();
