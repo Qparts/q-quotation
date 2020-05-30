@@ -356,35 +356,60 @@ public class QuotationInternalApiV2 {
     @Path("quotation/free")
     public Response createFreeQuotationRequest(@HeaderParam("Authorization") String header, CreateQuotationRequest qr) {
         try {
+            System.out.println(1);
             if (common.isQuotationRedudant(qr.getCustomerId(), new Date())) {
                 return Response.status(429).build();
             }
-            WebApp wa = dao.find(WebApp.class, qr.getAppCode());
+            System.out.println(2);
+            WebApp wa = this.getWebAppFromAuthHeader(header);
 
+            System.out.println(3);
+            if(qr.getAppCode() != null ) {
+                wa = dao.find(WebApp.class, qr.getAppCode());
+            }
             Quotation quotation = createFreeQuotation(qr, wa);
+            System.out.println(5);
             common.createQuotationItems(quotation, qr.getQuotationItems());
+            System.out.println(6);
             async.createBill(quotation);
+            System.out.println(7);
             async.notifyCustomerOfQuotationCreation(header, quotation);
+            System.out.println(8);
             return Response.status(201).build();
         }catch(Exception ex){
+            ex.printStackTrace();
             return Response.status(500).build();
         }
     }
 
     private Quotation createFreeQuotation(CreateQuotationRequest qr, WebApp wa){
+        System.out.println(1);
         Quotation quotation = new Quotation();
+        System.out.println(2);
         quotation.setAppCode(wa.getAppCode());
+        System.out.println(3);
         quotation.setCityId(qr.getCityId());
+        System.out.println(4);
         quotation.setCreated(new Date());
+        System.out.println(5);
         quotation.setCreatedBy(qr.getCreatedBy());
+        System.out.println(6);
         quotation.setMobile(qr.getMobile());
+        System.out.println(7);
         quotation.setCustomerId(qr.getCustomerId());
+        System.out.println(8);
         quotation.setCustomerVehicleId(qr.getCustomerVehicleId());
+        System.out.println(9);
         quotation.setMobile(qr.getMobile());
+        System.out.println(10);
         quotation.setMakeId(qr.getMakeId());
+        System.out.println(11);
         quotation.setStatus('W');
+        System.out.println(12);
         quotation.setVinImageAttached(false);
+        System.out.println(13);
         dao.persist(quotation);
+        System.out.println(14);
         return quotation;
     }
 
@@ -941,6 +966,31 @@ public class QuotationInternalApiV2 {
 
         }
     }
+
+
+
+    private WebApp getWebAppFromAuthHeader(String authHeader) {
+        try {
+            String[] values = authHeader.split("&&");
+            String appSecret = values[2].trim();
+            // Validate app secret
+            return getWebAppFromSecret(appSecret);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+
+    // retrieves app object from app secret
+    private WebApp getWebAppFromSecret(String secret) throws Exception {
+        // verify web app secret
+        WebApp webApp = dao.findTwoConditions(WebApp.class, "appSecret", "active", secret, true);
+        if (webApp == null) {
+            throw new Exception();
+        }
+        return webApp;
+    }
+
 
 
 

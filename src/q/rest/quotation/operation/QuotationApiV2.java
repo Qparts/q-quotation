@@ -70,6 +70,25 @@ public class QuotationApiV2 {
         }
     }
 
+    @Secured
+    @POST
+    @Path("quotation/free")
+    public Response createFreeQuotation(@HeaderParam("Authorization") String header, CreateQuotationRequest qr){
+        try{
+            if (common.isQuotationRedudant(qr.getCustomerId(), new Date())) {
+                return Response.status(429).build();
+            }
+            WebApp wa = getWebAppFromAuthHeader(header);
+            Quotation quotation = common.createQuotation(qr, wa, header);
+            common.createQuotationItems(quotation, qr.getQuotationItems());
+            async.createBill(quotation);
+            CreateQuotationResponse res = prepareCreateQuotationResponse(quotation, qr);
+            return Response.status(200).entity(res).build();
+        }catch (Exception ex){
+            return Response.status(500).build();
+        }
+    }
+
 
     @Secured
     @POST
@@ -359,7 +378,6 @@ public class QuotationApiV2 {
             List<Quotation> quotations = dao.getJPQLParams(Quotation.class, sql, customerId, 'W', 'R', 'A');
             List<PublicQuotation> publicQuotations = getPublicQuotations(quotations);
             return Response.status(200).entity(publicQuotations).build();
-
         }catch (Exception ex){
             return getServerErrorResponse();
         }

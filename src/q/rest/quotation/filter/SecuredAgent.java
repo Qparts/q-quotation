@@ -44,6 +44,7 @@ public class SecuredAgent implements ContainerRequestFilter {
             matchToken(token, username, appSecret, type, header);
         }
         catch (Exception ex){
+            System.out.println(2);
             requestContext.abortWith(Response.status(401).entity("Unauthorized Access").build());
         }
     }
