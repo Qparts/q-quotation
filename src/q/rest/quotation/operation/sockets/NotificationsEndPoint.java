@@ -2,7 +2,6 @@ package q.rest.quotation.operation.sockets;
 
 import q.rest.quotation.dao.DAO;
 import q.rest.quotation.helper.AppConstants;
-import q.rest.quotation.model.entity.Quotation;
 import q.rest.quotation.operation.AsyncService;
 
 import javax.ejb.EJB;
@@ -49,8 +48,8 @@ public class NotificationsEndPoint {
         this.token = token;
         if(this.tokenMatched()) {
             notificationsEndPoints.add(this);
-            broadcast("pendingQuotations," + async.getPendingQuotations());
-            broadcast("quotingQuotations," + async.getAssinedQuotations(userId));
+//            broadcast("pendingQuotations," + async.getPendingQuotations());
+  //          broadcast("quotingQuotations," + async.getAssinedQuotations(userId));
         }
         else {
             session.close();
@@ -90,13 +89,13 @@ public class NotificationsEndPoint {
         Map<String,Object> map = new HashMap<>();
         map.put("token", token);
         map.put("userId", userId);
-        Response r = this.postNoneSecuredRequest(AppConstants.USER_MATCH_TOKEN_WS, map);
-        if(r.getStatus() == 200) {
+//        Response r = this.postNoneSecuredRequest(AppConstants.USER_MATCH_TOKEN_WS, map);
+  //      if(r.getStatus() == 200) {
             return true;
-        }
-        else {
-            return false;
-        }
+    //    }
+      //  else {
+        //    return false;
+        //}
     }
 
     public <T> Response postNoneSecuredRequest(String link, T t) {

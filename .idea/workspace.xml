@@ -7,10 +7,89 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/build19.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/exception/Error.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/exception/GlobalException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/InternalAppAgent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilterSubscriber.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilterUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilterUserSubscriber.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/ValidAppAgent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/UserSubscriberJwt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/KeyConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/QuotationModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/CompanyPricePolicy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/CompanyQuotation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/CompanyQuotationItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PricePolicy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/FastInfoset-1.2.15.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/bcprov-jdk15on-1.65.01.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/byte-buddy-1.10.10.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/classmate-1.5.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/dom4j-2.1.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/hibernate-commons-annotations-5.1.0.Final.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/hibernate-core-5.4.18.Final.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/hibernate-types-52-2.9.11.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/istack-commons-runtime-3.0.7.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jackson-core-2.9.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jackson-databind-2.9.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jandex-2.1.3.Final.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/javassist-3.24.0-GA.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/javax.activation-api-1.2.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/javax.persistence-api-2.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jaxb-api-2.3.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jaxb-runtime-2.3.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jboss-logging-3.3.2.Final.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jboss-transaction-api_1.2_spec-1.1.1.Final.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jjwt-api-0.11.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jjwt-impl-0.11.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jjwt-jackson-0.11.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/stax-ex-1.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/txw2-2.3.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/q_rest_quotation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/q_rest_quotation.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/q-rest-quotation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/q-rest-quotation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/Secured.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/UserJwt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredAgent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredCustomer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/InternalApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredCustomerAgent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/ValidApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUserAgent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUserVendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/SubscriberJwt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUserVendorAgent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredVendor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredVendorAgent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CardHolder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateNewQuotationItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationItemRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PaymentRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicComment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotationItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Assignment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Bill.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/BillItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/BillItemResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/QuotationItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/VendorQuotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PurchaseOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/VendorQuotationItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PurchaseOrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationCommonApiV2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/NotificationsEndPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/NotificationsEndPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/QuotationsEndPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/QuotingEndpoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,17 +115,26 @@
     </option>
   </component>
   <component name="ProjectId" id="1VPQ1q1AI46g2us5ZBlVLVZAeXH" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/web/WEB-INF/lib" />
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564262556529" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/q/rest/quotation/filter" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -55,18 +143,18 @@
       <recent name="q.rest.quotation.model.contract" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="q.rest.quotation.model.contract" />
-      <recent name="q.rest.quotation.model.entity" />
-      <recent name="q.rest.quotation.filter" />
-      <recent name="q.rest.quotation.operation.sockets" />
+      <recent name="q.rest.quotation.model.entity.v3" />
       <recent name="q.rest.quotation.helper" />
+      <recent name="q.rest.quotation.exception" />
+      <recent name="q.rest.quotation.operation" />
+      <recent name="q.rest.quotation.model.contract" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/q/rest/quotation/filter" />
-      <recent name="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/q/rest/quotation/helper" />
-      <recent name="$PROJECT_DIR$/web/WEB-INF" />
+      <recent name="$PROJECT_DIR$/src/q/rest/quotation/model/entity" />
+      <recent name="$PROJECT_DIR$/src/q/rest/quotation/model/entity/v3" />
+      <recent name="$PROJECT_DIR$/.idea/libraries" />
+      <recent name="$PROJECT_DIR$/web/WEB-INF/lib" />
     </key>
   </component>
   <component name="RunManager">
@@ -212,7 +300,11 @@
       <workItem from="1589833761075" duration="5253000" />
       <workItem from="1589847467418" duration="1000000" />
       <workItem from="1590536540362" duration="2301000" />
-      <workItem from="1590788598854" duration="589000" />
+      <workItem from="1590788598854" duration="623000" />
+      <workItem from="1591528464452" duration="249000" />
+      <workItem from="1593352715093" duration="18588000" />
+      <workItem from="1593492572691" duration="5575000" />
+      <workItem from="1593529751821" duration="26000" />
     </task>
     <servers />
   </component>
@@ -241,147 +333,107 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="958" height="204" key="GridCell.Tab.0.bottom" timestamp="1590788579588">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state x="-705" y="105" key="#com.intellij.ide.util.MemberChooser" timestamp="1593444791670">
+      <screen x="-1024" y="23" width="1024" height="745" />
     </state>
+    <state x="-705" y="105" key="#com.intellij.ide.util.MemberChooser/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444791670" />
+    <state x="448" y="110" key="#com.intellij.ide.util.MemberChooser/0.23.1440.793@0.23.1440.793" timestamp="1593426819118" />
+    <state x="250" y="192" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1593352990172">
+      <screen x="0" y="23" width="1440" height="793" />
+    </state>
+    <state x="250" y="192" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.23.1440.793@0.23.1440.793" timestamp="1593352990172" />
+    <state width="958" height="202" key="GridCell.Tab.0.bottom" timestamp="1593510118123">
+      <screen x="0" y="23" width="1440" height="793" />
+    </state>
+    <state width="666" height="202" key="GridCell.Tab.0.bottom/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134987" />
+    <state width="958" height="202" key="GridCell.Tab.0.bottom/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118123" />
+    <state width="958" height="202" key="GridCell.Tab.0.bottom/0.23.1440.793@0.23.1440.793" timestamp="1593492499871" />
     <state width="958" height="204" key="GridCell.Tab.0.bottom/0.23.1440.798@0.23.1440.798" timestamp="1589961991732" />
     <state width="958" height="204" key="GridCell.Tab.0.bottom/0.23.1440.801@0.23.1440.801" timestamp="1590788579588" />
     <state width="958" height="204" key="GridCell.Tab.0.bottom/0.23.1440.811@0.23.1440.811" timestamp="1590540752440" />
-    <state width="958" height="204" key="GridCell.Tab.0.center" timestamp="1590788579587">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state width="958" height="202" key="GridCell.Tab.0.center" timestamp="1593510118123">
+      <screen x="0" y="23" width="1440" height="793" />
     </state>
+    <state width="666" height="202" key="GridCell.Tab.0.center/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134986" />
+    <state width="958" height="202" key="GridCell.Tab.0.center/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118123" />
+    <state width="958" height="202" key="GridCell.Tab.0.center/0.23.1440.793@0.23.1440.793" timestamp="1593492499871" />
     <state width="958" height="204" key="GridCell.Tab.0.center/0.23.1440.798@0.23.1440.798" timestamp="1589961991732" />
     <state width="958" height="204" key="GridCell.Tab.0.center/0.23.1440.801@0.23.1440.801" timestamp="1590788579587" />
     <state width="958" height="204" key="GridCell.Tab.0.center/0.23.1440.811@0.23.1440.811" timestamp="1590540752439" />
-    <state width="958" height="204" key="GridCell.Tab.0.left" timestamp="1590788579587">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state width="958" height="202" key="GridCell.Tab.0.left" timestamp="1593510118123">
+      <screen x="0" y="23" width="1440" height="793" />
     </state>
+    <state width="666" height="202" key="GridCell.Tab.0.left/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134986" />
+    <state width="958" height="202" key="GridCell.Tab.0.left/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118123" />
+    <state width="958" height="202" key="GridCell.Tab.0.left/0.23.1440.793@0.23.1440.793" timestamp="1593492499871" />
     <state width="958" height="204" key="GridCell.Tab.0.left/0.23.1440.798@0.23.1440.798" timestamp="1589961991731" />
     <state width="958" height="204" key="GridCell.Tab.0.left/0.23.1440.801@0.23.1440.801" timestamp="1590788579587" />
     <state width="958" height="204" key="GridCell.Tab.0.left/0.23.1440.811@0.23.1440.811" timestamp="1590540752436" />
-    <state width="958" height="204" key="GridCell.Tab.0.right" timestamp="1590788579588">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state width="958" height="202" key="GridCell.Tab.0.right" timestamp="1593510118123">
+      <screen x="0" y="23" width="1440" height="793" />
     </state>
+    <state width="666" height="202" key="GridCell.Tab.0.right/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134987" />
+    <state width="958" height="202" key="GridCell.Tab.0.right/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118123" />
+    <state width="958" height="202" key="GridCell.Tab.0.right/0.23.1440.793@0.23.1440.793" timestamp="1593492499871" />
     <state width="958" height="204" key="GridCell.Tab.0.right/0.23.1440.798@0.23.1440.798" timestamp="1589961991732" />
     <state width="958" height="204" key="GridCell.Tab.0.right/0.23.1440.801@0.23.1440.801" timestamp="1590788579588" />
     <state width="958" height="204" key="GridCell.Tab.0.right/0.23.1440.811@0.23.1440.811" timestamp="1590540752440" />
-    <state width="958" height="204" key="GridCell.Tab.1.bottom" timestamp="1590788579586">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state width="958" height="202" key="GridCell.Tab.1.bottom" timestamp="1593510118122">
+      <screen x="0" y="23" width="1440" height="793" />
     </state>
+    <state width="666" height="202" key="GridCell.Tab.1.bottom/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134985" />
+    <state width="958" height="202" key="GridCell.Tab.1.bottom/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118122" />
+    <state width="958" height="202" key="GridCell.Tab.1.bottom/0.23.1440.793@0.23.1440.793" timestamp="1593492499871" />
     <state width="958" height="204" key="GridCell.Tab.1.bottom/0.23.1440.798@0.23.1440.798" timestamp="1589961991731" />
     <state width="958" height="204" key="GridCell.Tab.1.bottom/0.23.1440.801@0.23.1440.801" timestamp="1590788579586" />
     <state width="958" height="204" key="GridCell.Tab.1.bottom/0.23.1440.811@0.23.1440.811" timestamp="1590540752435" />
-    <state width="958" height="204" key="GridCell.Tab.1.center" timestamp="1590788579585">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state width="958" height="202" key="GridCell.Tab.1.center" timestamp="1593510118122">
+      <screen x="0" y="23" width="1440" height="793" />
     </state>
+    <state width="666" height="202" key="GridCell.Tab.1.center/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134984" />
+    <state width="958" height="202" key="GridCell.Tab.1.center/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118122" />
+    <state width="958" height="202" key="GridCell.Tab.1.center/0.23.1440.793@0.23.1440.793" timestamp="1593492499870" />
     <state width="958" height="204" key="GridCell.Tab.1.center/0.23.1440.798@0.23.1440.798" timestamp="1589961991730" />
     <state width="958" height="204" key="GridCell.Tab.1.center/0.23.1440.801@0.23.1440.801" timestamp="1590788579585" />
     <state width="958" height="204" key="GridCell.Tab.1.center/0.23.1440.811@0.23.1440.811" timestamp="1590540752435" />
-    <state width="958" height="204" key="GridCell.Tab.1.left" timestamp="1590788579585">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state width="958" height="202" key="GridCell.Tab.1.left" timestamp="1593510118121">
+      <screen x="0" y="23" width="1440" height="793" />
     </state>
+    <state width="666" height="202" key="GridCell.Tab.1.left/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134983" />
+    <state width="958" height="202" key="GridCell.Tab.1.left/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118121" />
+    <state width="958" height="202" key="GridCell.Tab.1.left/0.23.1440.793@0.23.1440.793" timestamp="1593492499870" />
     <state width="958" height="204" key="GridCell.Tab.1.left/0.23.1440.798@0.23.1440.798" timestamp="1589961991730" />
     <state width="958" height="204" key="GridCell.Tab.1.left/0.23.1440.801@0.23.1440.801" timestamp="1590788579585" />
     <state width="958" height="204" key="GridCell.Tab.1.left/0.23.1440.811@0.23.1440.811" timestamp="1590540752433" />
-    <state width="958" height="204" key="GridCell.Tab.1.right" timestamp="1590788579586">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state width="958" height="202" key="GridCell.Tab.1.right" timestamp="1593510118122">
+      <screen x="0" y="23" width="1440" height="793" />
     </state>
+    <state width="666" height="202" key="GridCell.Tab.1.right/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593444134984" />
+    <state width="958" height="202" key="GridCell.Tab.1.right/-1024.23.1024.745/0.23.1440.793@0.23.1440.793" timestamp="1593510118122" />
+    <state width="958" height="202" key="GridCell.Tab.1.right/0.23.1440.793@0.23.1440.793" timestamp="1593492499870" />
     <state width="958" height="204" key="GridCell.Tab.1.right/0.23.1440.798@0.23.1440.798" timestamp="1589961991731" />
     <state width="958" height="204" key="GridCell.Tab.1.right/0.23.1440.801@0.23.1440.801" timestamp="1590788579586" />
     <state width="958" height="204" key="GridCell.Tab.1.right/0.23.1440.811@0.23.1440.811" timestamp="1590540752435" />
+    <state x="0" y="23" width="1271" height="793" key="SettingsEditor" timestamp="1593413546791">
+      <screen x="0" y="23" width="1440" height="793" />
+    </state>
+    <state x="0" y="23" width="1271" height="793" key="SettingsEditor/0.23.1440.793@0.23.1440.793" timestamp="1593413546791" />
+    <state x="216" y="320" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1593353190605">
+      <screen x="0" y="23" width="1440" height="793" />
+    </state>
+    <state x="216" y="320" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.23.1440.793@0.23.1440.793" timestamp="1593353190605" />
+    <state x="-726" y="324" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593436764539">
+      <screen x="-1024" y="23" width="1024" height="745" />
+    </state>
+    <state x="-726" y="324" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-1024.23.1024.745/0.23.1440.793@-1024.23.1024.745" timestamp="1593436764539" />
+    <state x="419" y="343" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1440.793@0.23.1440.793" timestamp="1593354094213" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <last-edited>q-rest-quotation</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.5" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>JPA</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>dom4jrrrrr</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>q-rest-quotation</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.6</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31152633" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

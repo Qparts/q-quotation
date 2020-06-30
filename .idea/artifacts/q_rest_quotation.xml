@@ -7,6 +7,11 @@
         <element id="directory" name="classes">
           <element id="module-output" name="q-rest-quotation" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="hibernate" />
+          <element id="library" level="project" name="lib" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/jackson-annotations-2.8.5.jar" />
+        </element>
       </element>
     </root>
   </artifact>

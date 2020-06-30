@@ -1,14 +1,33 @@
 package q.rest.quotation.helper;
 
-import q.rest.quotation.model.contract.PublicComment;
-import q.rest.quotation.model.contract.PublicQuotationItem;
-import q.rest.quotation.model.entity.Comment;
-import q.rest.quotation.model.entity.QuotationItem;
-
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Helper {
+
+    public List<Date> getAllDatesBetween(Date from, Date to){
+        from = new Date(from.getTime() - (1000*60*60*24));
+        to = new Date(to.getTime() + (1000*60*60*24));
+        LocalDate fromLocal = convertToLocalDate(from);
+        LocalDate toLocal = convertToLocalDate(to);
+
+        List<LocalDate> localDates = fromLocal.datesUntil(toLocal)
+                .collect(Collectors.toList());
+
+        List<Date> dates = new ArrayList<>();
+        for(LocalDate ld : localDates){
+            dates.add(convertToDate(ld));
+        }
+        return dates;
+    }
+
+    public static Date addDays(Date original, long days) {
+        return new Date(original.getTime() + (1000L * 60 * 60 * 24 * days));
+    }
 
     public static String getFullMobile(String mobile, String countryCode){
         String mobileFull = mobile;
@@ -41,56 +60,25 @@ public class Helper {
     }
 
     public static Date getToDate(int month, int year) {
-        Date to = new Date();
-        Calendar cTo = new GregorianCalendar();
-        if (month == 12) {
-            cTo.set(year, 11, 31, 0, 0, 0);
-        } else {
-            cTo.set(year, month, 1, 0, 0, 0);
-            cTo.set(Calendar.DAY_OF_MONTH, cTo.getActualMaximum(Calendar.DAY_OF_MONTH));
-        }
-        cTo.set(Calendar.HOUR_OF_DAY, 23);
-        cTo.set(Calendar.MINUTE, 59);
-        cTo.set(Calendar.SECOND, 59);
-        cTo.set(Calendar.MILLISECOND, cTo.getActualMaximum(Calendar.MILLISECOND));
-        to.setTime(cTo.getTimeInMillis());
-        return to;
+       YearMonth ym = YearMonth.of(year,month);
+       LocalDate to = ym.atEndOfMonth();
+       return convertToDate(to);
     }
-
-
 
     public static Date getFromDate(int month, int year) {
-        Date from = new Date();
-        if (month == 12) {
-            Calendar cFrom = new GregorianCalendar();
-            cFrom.set(year, 0, 1, 0, 0, 0);
-            cFrom.set(Calendar.MILLISECOND, 0);
-            from.setTime(cFrom.getTimeInMillis());
-        } else {
-            Calendar cFrom = new GregorianCalendar();
-            cFrom.set(year, month, 1, 0, 0, 0);
-            cFrom.set(Calendar.MILLISECOND, 0);
-            from.setTime(cFrom.getTimeInMillis());
-        }
-        return from;
+        YearMonth ym = YearMonth.of(year, month);
+        LocalDate from = ym.atDay(1);
+        return convertToDate(from);
     }
 
-
-
-    public static List<PublicQuotationItem> convertQuotationItemsToContract(List<QuotationItem> quotationItems){
-        List<PublicQuotationItem> publicQuotationItems = new ArrayList<>();
-        for(QuotationItem qi : quotationItems){
-            publicQuotationItems.add(qi.getContract());
-        }
-        return publicQuotationItems;
+    public static LocalDate convertToLocalDate(Date dateToConvert) {
+        return LocalDate.ofInstant(
+                dateToConvert.toInstant(), ZoneId.systemDefault());
     }
 
-
-    public static List<PublicComment> convertCommentsToContract(List<Comment> comments){
-        List<PublicComment> publicComments = new ArrayList<>();
-        for(Comment comment : comments){
-            publicComments.add(comment.getContract());
-        }
-        return publicComments;
+    public static Date convertToDate(LocalDate dateToConvert) {
+        return Date.from(dateToConvert.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
     }
 }
