@@ -7,89 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/build19.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/exception/Error.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/exception/GlobalException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/InternalAppAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilterSubscriber.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilterUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/JwtFilterUserSubscriber.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/ValidAppAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/UserSubscriberJwt.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/KeyConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/QuotationModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/CompanyPricePolicy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/CompanyQuotation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/CompanyQuotationItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PricePolicy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/FastInfoset-1.2.15.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/bcprov-jdk15on-1.65.01.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/byte-buddy-1.10.10.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/classmate-1.5.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/dom4j-2.1.3.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/hibernate-commons-annotations-5.1.0.Final.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/hibernate-core-5.4.18.Final.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/hibernate-types-52-2.9.11.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/istack-commons-runtime-3.0.7.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jackson-core-2.9.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jackson-databind-2.9.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jandex-2.1.3.Final.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/javassist-3.24.0-GA.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/javax.activation-api-1.2.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/javax.persistence-api-2.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jaxb-api-2.3.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jaxb-runtime-2.3.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jboss-logging-3.3.2.Final.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jboss-transaction-api_1.2_spec-1.1.1.Final.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jjwt-api-0.11.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jjwt-impl-0.11.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/jjwt-jackson-0.11.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/stax-ex-1.8.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/txw2-2.3.1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/q_rest_quotation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/q_rest_quotation.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/q-rest-quotation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/q-rest-quotation.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/Secured.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/UserJwt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredCustomer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/InternalApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredCustomerAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/ValidApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUserAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUserVendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/filter/annotation/SubscriberJwt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredUserVendorAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredVendor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/filter/SecuredVendorAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/Helper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CardHolder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateNewQuotationItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationItemRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/CreateQuotationResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PaymentRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicComment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/contract/PublicQuotationItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Assignment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Bill.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/BillItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/BillItemResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Comment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/Quotation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/QuotationItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/VendorQuotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PurchaseOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/VendorQuotationItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PurchaseOrderItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationCommonApiV2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationInternalApiV2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/CustomerNotificationEndPoint.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/NotificationsEndPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/NotificationsEndPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/QuotationsEndPoint.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/sockets/QuotingEndpoint.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build19.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build19.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +49,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564262556529" />
@@ -304,7 +224,8 @@
       <workItem from="1591528464452" duration="249000" />
       <workItem from="1593352715093" duration="18588000" />
       <workItem from="1593492572691" duration="5575000" />
-      <workItem from="1593529751821" duration="26000" />
+      <workItem from="1593529751821" duration="122000" />
+      <workItem from="1593544183213" duration="26000" />
     </task>
     <servers />
   </component>
