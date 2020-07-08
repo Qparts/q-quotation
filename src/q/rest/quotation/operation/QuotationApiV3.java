@@ -6,6 +6,7 @@ import q.rest.quotation.filter.annotation.UserJwt;
 import q.rest.quotation.filter.annotation.UserSubscriberJwt;
 import q.rest.quotation.helper.Helper;
 import q.rest.quotation.model.contract.QuotationModel;
+import q.rest.quotation.model.contract.QuotationsSummary;
 import q.rest.quotation.model.entity.CompanyQuotation;
 import q.rest.quotation.model.entity.CompanyQuotationItem;
 import q.rest.quotation.model.entity.PricePolicy;
@@ -141,6 +142,25 @@ public class QuotationApiV3 {
         }
     }
 
+    @UserJwt
+    @GET
+    @Path("summary-report/company/{id}")
+    public Response getCompanySummaryReport(@PathParam(value = "id") int id) {
+        String sql = "select count(*) from CompanyQuotationItem b where b.quotationId in (select c.id from CompanyQuotation c where c.companyId = :value0)" ;
+        int quotationsSubmitted = dao.findJPQLParams(Number.class, sql, id).intValue();
+        sql = "select count(*) from CompanyQuotationItem b where b.quotationId in (select c.id from CompanyQuotation c where c.targetCompanyId = :value0)" ;
+        int quotationReceived = dao.findJPQLParams(Number.class, sql, id).intValue();
+        sql = "select count(*) from PurchaseOrderItem b where b.purchaseOrderId in (select c.id from PurchaseOrder c where c.companyId = :value0)";
+        int posSubmitted = dao.findJPQLParams(Number.class, sql, id).intValue();
+        sql = "select count(*) from PurchaseOrderItem b where b.purchaseOrderId in (select c.id from PurchaseOrder c where c.targetCompanyId = :value0)";
+        int posReceived = dao.findJPQLParams(Number.class, sql, id).intValue();
+        QuotationsSummary report = new QuotationsSummary();
+        report.setQuotationsSubmitted(quotationsSubmitted);
+        report.setQuotationsReceived(quotationReceived);
+        report.setPosSubmitted(posSubmitted);
+        report.setPosReceived(posReceived);
+        return Response.ok().entity(report).build();
+    }
 
     @UserJwt
     @GET
