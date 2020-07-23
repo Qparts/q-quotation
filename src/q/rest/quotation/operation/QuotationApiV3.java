@@ -72,6 +72,15 @@ public class QuotationApiV3 {
         return Response.ok().entity(cq2).build();
     }
 
+    @UserSubscriberJwt
+    @GET
+    @Path("quotations/target/{targetId}/last/{max}")
+    public Response getTargetCompanyLatest(@PathParam(value = "max") int max, @PathParam(value = "targetId") int targetId){
+        String sql = "select b from CompanyQuotation b where b.targetCompanyId = :value0 order by b.created desc";
+        List<CompanyQuotation> vqs = dao.getJPQLParamsMax(CompanyQuotation.class, sql, max, targetId);
+        return Response.status(200).entity(vqs).build();
+    }
+
 
     @UserSubscriberJwt
     @GET
