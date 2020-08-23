@@ -16,7 +16,7 @@ public class PurchaseOrder implements Serializable {
     private int targetCompanyId;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
-    private char status;
+    private char status;//N = new, R = approved, X = rejected
     private String notes;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="purchase_order_id")

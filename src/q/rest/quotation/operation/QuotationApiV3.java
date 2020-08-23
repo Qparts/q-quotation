@@ -12,6 +12,7 @@ import q.rest.quotation.model.entity.CompanyQuotationItem;
 import q.rest.quotation.model.entity.PricePolicy;
 import q.rest.quotation.model.entity.PurchaseOrder;
 
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -26,6 +27,8 @@ public class QuotationApiV3 {
     @EJB
     private DAO dao;
 
+    @EJB
+    private AsyncService async;
 
     @SubscriberJwt
     @POST
@@ -112,7 +115,6 @@ public class QuotationApiV3 {
         return Response.ok().entity(vqs).build();
     }
 
-
     @SubscriberJwt
     @Path("purchase-order")
     @POST
@@ -121,9 +123,9 @@ public class QuotationApiV3 {
         po.getItems().forEach(item -> item.setCreated(new Date()));
         dao.persist(po);
         //send email notification to target company
+        async.sendPurchaseOrderNotification(po.getSubscriberId(), po.getTargetCompanyId());
         return Response.status(200).build();
     }
-
 
     @SubscriberJwt
     @Path("purchase-order")
@@ -131,6 +133,9 @@ public class QuotationApiV3 {
     public Response updatePurchaseOrder(PurchaseOrder po) {
         try {
             dao.update(po);
+            if(po.getStatus() == 'R'){
+                async.sendAcceptPurchaseOrderNotification(po.getSubscriberId(), po.getTargetCompanyId());
+            }
             //send email notification to company;
             return Response.status(201).build();
         } catch (Exception ex) {

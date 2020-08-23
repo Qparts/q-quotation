@@ -7,8 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/InternalAppRequester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/dao/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/dao/DAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/helper/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PurchaseOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/model/entity/PurchaseOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV3.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,22 +63,22 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="q.rest.quotation.model.contract" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="q.rest.quotation.helper" />
+      <recent name="q.rest.quotation.model.contract" />
+      <recent name="q.rest.quotation.model.entity.v3" />
+      <recent name="q.rest.quotation.exception" />
+      <recent name="q.rest.quotation.operation" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/q/rest/quotation/model/entity" />
       <recent name="$PROJECT_DIR$/src/q/rest/quotation/model/entity/v3" />
       <recent name="$PROJECT_DIR$/.idea/libraries" />
       <recent name="$PROJECT_DIR$/web/WEB-INF/lib" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="q.rest.quotation.model.contract" />
-      <recent name="q.rest.quotation.model.entity.v3" />
-      <recent name="q.rest.quotation.helper" />
-      <recent name="q.rest.quotation.exception" />
-      <recent name="q.rest.quotation.operation" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="q.rest.quotation.model.contract" />
     </key>
   </component>
   <component name="RunManager">
@@ -136,6 +139,11 @@
               <path>
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="JBoss Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="JBoss Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="Running" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               </path>
             </expand>
             <select />
@@ -235,6 +243,7 @@
       <workItem from="1594216503224" duration="581000" />
       <workItem from="1595102698229" duration="2260000" />
       <workItem from="1595328296404" duration="650000" />
+      <workItem from="1598185287455" duration="3620000" />
     </task>
     <servers />
   </component>
