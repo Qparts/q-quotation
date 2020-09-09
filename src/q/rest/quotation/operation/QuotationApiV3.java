@@ -133,9 +133,10 @@ public class QuotationApiV3 {
     public Response updatePurchaseOrder(PurchaseOrder po) {
         try {
             dao.update(po);
-            if(po.getStatus() == 'R'){
-                async.sendAcceptPurchaseOrderNotification(po.getSubscriberId(), po.getTargetCompanyId());
-            }
+            if(po.getStatus() == 'A')
+                async.sendUpdatePurchaseOrderNotification(po.getSubscriberId(), po.getTargetCompanyId(), "Accepted");
+            if(po.getStatus() == 'R')
+                async.sendUpdatePurchaseOrderNotification(po.getSubscriberId(), po.getTargetCompanyId(), "Refused");
             //send email notification to company;
             return Response.status(201).build();
         } catch (Exception ex) {

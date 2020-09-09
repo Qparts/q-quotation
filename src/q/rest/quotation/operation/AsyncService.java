@@ -28,13 +28,13 @@ public class AsyncService {
     }
 
     @Asynchronous
-    public void sendAcceptPurchaseOrderNotification(int sender, int receiver){
-        Map<String,Integer> map = new HashMap<>();
+    public void sendUpdatePurchaseOrderNotification(int sender, int receiver, String status){
+        Map<String,Object> map = new HashMap<>();
         map.put("receiverId", receiver);
         map.put("senderId", sender);
-        InternalAppRequester.postSecuredRequest(AppConstants.POST_ACCEPT_PURCHASE_ORDER_NOTIFICATION, map);
+        map.put("status", status);
+        InternalAppRequester.postSecuredRequest(AppConstants.POST_UPDATE_PURCHASE_ORDER_NOTIFICATION, map);
     }
-
 
 //    @Asynchronous
  //   public void notifyCustomerOfQuotationCreation(String header, Quotation quotation) {
