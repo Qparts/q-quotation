@@ -7,12 +7,8 @@ import q.rest.quotation.filter.annotation.UserSubscriberJwt;
 import q.rest.quotation.helper.Helper;
 import q.rest.quotation.model.contract.QuotationModel;
 import q.rest.quotation.model.contract.QuotationsSummary;
-import q.rest.quotation.model.entity.CompanyQuotation;
-import q.rest.quotation.model.entity.CompanyQuotationItem;
-import q.rest.quotation.model.entity.PricePolicy;
-import q.rest.quotation.model.entity.PurchaseOrder;
+import q.rest.quotation.model.entity.*;
 
-import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -30,6 +26,7 @@ public class QuotationApiV3 {
     @EJB
     private AsyncService async;
 
+    //create price policy
     @SubscriberJwt
     @POST
     @Path("price-policy")
@@ -43,6 +40,29 @@ public class QuotationApiV3 {
         return Response.status(200).entity(pricePolicy).build();
     }
 
+    //create company price policy
+    @SubscriberJwt
+    @POST
+    @Path("company-policy")
+    public Response createCompanyPolicy(CompanyPricePolicy cpp ){
+        CompanyPricePolicy check = dao.findTwoConditions(CompanyPricePolicy.class, "companyId" , "targetCompanyId" , cpp.getCompanyId() , cpp.getTargetCompanyId());
+        if(check != null) return Response.status(409).build();
+        cpp.setCreated(new Date());
+        dao.persist(cpp);
+        return Response.status(200).entity(cpp).build();
+    }
+
+    //delete company price policy
+    @SubscriberJwt
+    @DELETE
+    @Path("company-policy/{id}")
+    public Response deleteCompanyPolicy(@PathParam("id") int cppId){
+        CompanyPricePolicy cpp = dao.find(CompanyPricePolicy.class, cppId);
+        dao.delete(cpp);
+        return Response.status(200).build();
+    }
+
+    //get all policies for a given company
     @UserSubscriberJwt
     @GET
     @Path("policies/company/{id}")
@@ -51,6 +71,20 @@ public class QuotationApiV3 {
         return Response.ok().entity(policies).build();
     }
 
+    //get allowed companies to add to a policies for a given company, this is determined by all the companies that requested a quotation of this company
+    @SubscriberJwt
+    @GET
+    @Path("allowed-policy-companies/company/{companyId}")
+    public Response getCompaniesAllowedForPolicy(@PathParam(value = "companyId") int companyId){
+        String sql = "select distinct b.companyId from CompanyQuotation b where b.targetCompanyId = :value0";
+        List<Integer> companies = dao.getJPQLParams(Integer.class, sql, companyId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("companies", companies);
+        return Response.ok().entity(map).build();
+    }
+
+
+    //create a quotation
     @SubscriberJwt
     @POST
     @Path("quotation")

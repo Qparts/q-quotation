@@ -8,7 +8,7 @@ import java.util.Date;
 @Table(name="qut_company_price_policy")
 public class CompanyPricePolicy implements Serializable {
 	@Id
-	@SequenceGenerator(name = "qut_company_price_policy_seq_gen", sequenceName = "qut_company_price_policy_id_seq", initialValue=1000, allocationSize = 1)
+	@SequenceGenerator(name = "qut_company_price_policy_id_seq_gen", sequenceName = "qut_company_price_policy_id_seq", initialValue=1000, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "qut_company_price_policy_id_seq_gen")
 	private int id;
 	private int companyId;
