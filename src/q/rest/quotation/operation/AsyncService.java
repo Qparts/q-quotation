@@ -23,22 +23,18 @@ public class AsyncService {
     @Asynchronous
     public void sendPurchaseOrderNotification(int sender, int receiver){
         Map<String,Integer> map = new HashMap<>();
-        map.put("receiverId", receiver);
+        map.put("receiverCompanyId", receiver);
         map.put("senderId", sender);
-        System.out.println("sending purchase order notification");
-        Response r = InternalAppRequester.postSecuredRequest(AppConstants.POST_PURCHASE_ORDER_NOTIFICATION, map);
-        System.out.println(r.getStatus());
+        InternalAppRequester.postSecuredRequest(AppConstants.POST_PURCHASE_ORDER_NOTIFICATION, map);
     }
 
     @Asynchronous
     public void sendUpdatePurchaseOrderNotification(int sender, int receiver, String status){
         Map<String,Object> map = new HashMap<>();
-        map.put("receiverId", receiver);
+        map.put("receiverCompanyId", receiver);
         map.put("senderId", sender);
         map.put("status", status);
-        System.out.println("sending purchase update order notification");
-        Response r = InternalAppRequester.postSecuredRequest(AppConstants.POST_UPDATE_PURCHASE_ORDER_NOTIFICATION, map);
-        System.out.println(r.getStatus());
+        InternalAppRequester.postSecuredRequest(AppConstants.POST_UPDATE_PURCHASE_ORDER_NOTIFICATION, map);
     }
 
 //    @Asynchronous
