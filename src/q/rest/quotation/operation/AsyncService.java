@@ -8,6 +8,7 @@ import q.rest.quotation.operation.sockets.NotificationsEndPoint;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,9 @@ public class AsyncService {
         Map<String,Integer> map = new HashMap<>();
         map.put("receiverId", receiver);
         map.put("senderId", sender);
-        InternalAppRequester.postSecuredRequest(AppConstants.POST_PURCHASE_ORDER_NOTIFICATION, map);
+        System.out.println("sending purchase order notification");
+        Response r = InternalAppRequester.postSecuredRequest(AppConstants.POST_PURCHASE_ORDER_NOTIFICATION, map);
+        System.out.println(r.getStatus());
     }
 
     @Asynchronous
@@ -33,7 +36,9 @@ public class AsyncService {
         map.put("receiverId", receiver);
         map.put("senderId", sender);
         map.put("status", status);
-        InternalAppRequester.postSecuredRequest(AppConstants.POST_UPDATE_PURCHASE_ORDER_NOTIFICATION, map);
+        System.out.println("sending purchase update order notification");
+        Response r = InternalAppRequester.postSecuredRequest(AppConstants.POST_UPDATE_PURCHASE_ORDER_NOTIFICATION, map);
+        System.out.println(r.getStatus());
     }
 
 //    @Asynchronous
