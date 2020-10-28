@@ -277,7 +277,7 @@ public class QuotationApiV3 {
         int month = ((Number) map.get("month")).intValue();
         Date from = Helper.getFromDate(month, year);
         Date to = Helper.getToDate(month, year);
-        String sql = "select b from PurchaseOrder b where cast(b.created as date) between :value0 and :value1 order by b.created asc";
+        String sql = "select b from PurchaseOrder b where cast(b.created as date) between :value0 and :value1 order by b.created desc";
         List<PurchaseOrder> orders = dao.getJPQLParams(PurchaseOrder.class, sql, from, to);
         return Response.ok().entity(orders).build();
     }

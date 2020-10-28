@@ -8,7 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1d95a8f3-e5b5-4409-a92c-78a68b369a0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/AsyncService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/q/rest/quotation/operation/QuotationApiV3.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +243,8 @@
       <workItem from="1600132166014" duration="9000" />
       <workItem from="1601404026433" duration="6615000" />
       <workItem from="1601553927474" duration="626000" />
-      <workItem from="1603788178468" duration="2090000" />
+      <workItem from="1603788178468" duration="2321000" />
+      <workItem from="1603885633761" duration="26000" />
     </task>
     <servers />
   </component>
