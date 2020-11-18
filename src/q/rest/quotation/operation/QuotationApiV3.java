@@ -52,6 +52,22 @@ public class QuotationApiV3 {
         return Response.status(200).entity(cpp).build();
     }
 
+
+    //create company price policy
+    @SubscriberJwt
+    @POST
+    @Path("company-policy/list")
+    public Response createCompanyPolicyList(List<CompanyPricePolicy> cpps){
+        for(var cpp : cpps){
+            CompanyPricePolicy check = dao.findTwoConditions(CompanyPricePolicy.class, "companyId" , "targetCompanyId" , cpp.getCompanyId() , cpp.getTargetCompanyId());
+            if(check == null){
+                cpp.setCreated(new Date());
+                dao.persist(cpp);
+            }
+        }
+        return Response.status(200).build();
+    }
+
     //delete company price policy
     @SubscriberJwt
     @DELETE
@@ -59,7 +75,16 @@ public class QuotationApiV3 {
     public Response deleteCompanyPolicy(@PathParam("id") int cppId){
         CompanyPricePolicy cpp = dao.find(CompanyPricePolicy.class, cppId);
         dao.delete(cpp);
-        return Response.status(200).build();
+        return Response.ok().build();
+    }
+
+    @SubscriberJwt
+    @DELETE
+    @Path("policy/{id}")
+    public Response deletePolicy(@PathParam("id") int pid){
+        PricePolicy pp = dao.find(PricePolicy.class, pid);
+        dao.delete(pp);
+        return Response.ok().build();
     }
 
     //get all policies for a given company

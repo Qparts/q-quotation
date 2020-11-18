@@ -136,6 +136,11 @@
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="JBoss Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="JBoss Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="Running" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
             </expand>
             <select />
           </treeState>
@@ -244,7 +249,8 @@
       <workItem from="1601404026433" duration="6615000" />
       <workItem from="1601553927474" duration="626000" />
       <workItem from="1603788178468" duration="2321000" />
-      <workItem from="1603885633761" duration="26000" />
+      <workItem from="1603885633761" duration="291000" />
+      <workItem from="1605615956839" duration="1581000" />
     </task>
     <servers />
   </component>
