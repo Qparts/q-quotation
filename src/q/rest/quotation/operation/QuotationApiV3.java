@@ -115,18 +115,18 @@ public class QuotationApiV3 {
     @Path("quotation")
     public Response requestQuotation(QuotationModel model) {
         String sql = "select b from CompanyQuotation b where b.companyId =:value0 and b.targetCompanyId = :value1 and cast(b.created as date) =:value2";
-        CompanyQuotation cq = dao.findJPQLParams(CompanyQuotation.class, sql, model.getCompanyId(), model.getTargetCompanyId(), new Date());
+        List<CompanyQuotation> cqs = dao.getJPQLParams(CompanyQuotation.class, sql, model.getCompanyId(), model.getTargetCompanyId(), new Date());
         String jpql = "select b from PricePolicy b where b.id in (select c.policyId from CompanyPricePolicy c where c.companyId = :value0 and c.targetCompanyId = :value1)";
         PricePolicy pp = dao.findJPQLParams(PricePolicy.class, jpql, model.getTargetCompanyId(), model.getCompanyId());
-        if (cq == null) {
-            cq = new CompanyQuotation(model, pp);
+        if (cqs.isEmpty()) {
+            var cq = new CompanyQuotation(model, pp);
             dao.persist(cq);
         } else {
-            CompanyQuotationItem item = cq.getItemFromModel(model);
+            CompanyQuotationItem item = cqs.get(0).getItemFromModel(model);
             if (item == null) {
                 item = new CompanyQuotationItem(model, pp);
-                cq.getQuotationItems().add(item);
-                dao.update(cq);
+                item.setQuotationId(cqs.get(0).getId());
+                dao.update(item);
             }
         }
         String sql2 = "select b from CompanyQuotation b where b.companyId =:value0 and b.targetCompanyId = :value1 and cast(b.created as date) =:value2";
