@@ -307,5 +307,18 @@ public class QuotationApiV3 {
         return Response.ok().entity(orders).build();
     }
 
+    @UserJwt
+    @PUT
+    @Path("merge")
+    public Response merge(Map<String,Integer> map){
+        int mainId = map.get("mainId");
+        int secId = map.get("secondaryId");
+        String sql = "update qut_company_quotation set company_id = " + mainId + " where company_id = " + secId;
+        String sql2 = "update qut_purchase_order set company_id = " + mainId + " where company_id = " + secId;
+        dao.updateNative(sql);
+        dao.updateNative(sql2);
+        return Response.status(200).build();
+    }
+
 
 }
