@@ -91,6 +91,13 @@ public class DAO {
         em.persist(t);
     }
 
+    public <T> List<T> getNativeOffsetMax(Class<T> klass, String jpql, int offset, int max){
+        Query q = em.createNativeQuery(jpql, klass);
+        q.setFirstResult(offset).setMaxResults(max);
+        return (List<T>) q.getResultList();
+    }
+
+
     public void delete(Object object) {
         object = em.merge(object);
         em.remove(object);

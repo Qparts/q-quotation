@@ -26,6 +26,14 @@ public class QuotationApiV3 {
     @EJB
     private AsyncService async;
 
+    @GET
+    @Path("migrate-company-quotations/offset/{offset}/max/{max}")
+    public Response migrateCompanyQuotations(@PathParam(value = "offset") int offset, @PathParam(value = "max") int max){
+        String sql = "select * from qut_company_quotation where cast(created as date) < '2021-08-28' order by created";
+        List<CompanyQuotationForMigration> parts = dao.getNativeOffsetMax(CompanyQuotationForMigration.class, sql, offset, max);
+        return Response.status(200).entity(parts).build();
+    }
+
     //create price policy
     @SubscriberJwt
     @POST
@@ -109,30 +117,30 @@ public class QuotationApiV3 {
     }
 
 
-    //create a quotation
-    @SubscriberJwt
-    @POST
-    @Path("quotation")
-    public Response requestQuotation(QuotationModel model) {
-        String sql = "select b from CompanyQuotation b where b.companyId =:value0 and b.targetCompanyId = :value1 and cast(b.created as date) =:value2";
-        List<CompanyQuotation> cqs = dao.getJPQLParams(CompanyQuotation.class, sql, model.getCompanyId(), model.getTargetCompanyId(), new Date());
-        String jpql = "select b from PricePolicy b where b.id in (select c.policyId from CompanyPricePolicy c where c.companyId = :value0 and c.targetCompanyId = :value1)";
-        PricePolicy pp = dao.findJPQLParams(PricePolicy.class, jpql, model.getTargetCompanyId(), model.getCompanyId());
-        if (cqs.isEmpty()) {
-            var cq = new CompanyQuotation(model, pp);
-            dao.persist(cq);
-        } else {
-            CompanyQuotationItem item = cqs.get(0).getItemFromModel(model);
-            if (item == null) {
-                item = new CompanyQuotationItem(model, pp);
-                item.setQuotationId(cqs.get(0).getId());
-                dao.update(item);
+        //create a quotation
+        @SubscriberJwt
+        @POST
+        @Path("quotation")
+        public Response requestQuotation(QuotationModel model) {
+            String sql = "select b from CompanyQuotation b where b.companyId =:value0 and b.targetCompanyId = :value1 and cast(b.created as date) =:value2";
+            List<CompanyQuotation> cqs = dao.getJPQLParams(CompanyQuotation.class, sql, model.getCompanyId(), model.getTargetCompanyId(), new Date());
+            String jpql = "select b from PricePolicy b where b.id in (select c.policyId from CompanyPricePolicy c where c.companyId = :value0 and c.targetCompanyId = :value1)";
+            PricePolicy pp = dao.findJPQLParams(PricePolicy.class, jpql, model.getTargetCompanyId(), model.getCompanyId());
+            if (cqs.isEmpty()) {
+                var cq = new CompanyQuotation(model, pp);
+                dao.persist(cq);
+            } else {
+                CompanyQuotationItem item = cqs.get(0).getItemFromModel(model);
+                if (item == null) {
+                    item = new CompanyQuotationItem(model, pp);
+                    item.setQuotationId(cqs.get(0).getId());
+                    dao.update(item);
+                }
             }
+            String sql2 = "select b from CompanyQuotation b where b.companyId =:value0 and b.targetCompanyId = :value1 and cast(b.created as date) =:value2";
+            CompanyQuotation cq2 = dao.findJPQLParams(CompanyQuotation.class, sql2, model.getCompanyId(), model.getTargetCompanyId(), new Date());
+            return Response.ok().entity(cq2).build();
         }
-        String sql2 = "select b from CompanyQuotation b where b.companyId =:value0 and b.targetCompanyId = :value1 and cast(b.created as date) =:value2";
-        CompanyQuotation cq2 = dao.findJPQLParams(CompanyQuotation.class, sql2, model.getCompanyId(), model.getTargetCompanyId(), new Date());
-        return Response.ok().entity(cq2).build();
-    }
 
     @UserSubscriberJwt
     @GET
