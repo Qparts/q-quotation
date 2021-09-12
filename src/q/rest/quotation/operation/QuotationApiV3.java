@@ -26,13 +26,6 @@ public class QuotationApiV3 {
     @EJB
     private AsyncService async;
 
-    @GET
-    @Path("migrate-company-quotations/offset/{offset}/max/{max}")
-    public Response migrateCompanyQuotations(@PathParam(value = "offset") int offset, @PathParam(value = "max") int max){
-        String sql = "select * from qut_company_quotation where cast(created as date) < '2021-08-28' order by created";
-        List<CompanyQuotationForMigration> parts = dao.getNativeOffsetMax(CompanyQuotationForMigration.class, sql, offset, max);
-        return Response.status(200).entity(parts).build();
-    }
 
     //create price policy
     @SubscriberJwt
